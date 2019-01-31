@@ -15,14 +15,12 @@ namespace ScriptDotNet2.Network
 
         }
 
-        public ExecEventProcData(byte eventCode, EventTypes eventType, ArrayList param)
+        public ExecEventProcData(EventTypes eventType, ArrayList param)
         {
-            EventCode = eventCode;
             EventType = eventType;
             Parameters = param;
         }
 
-        public byte EventCode { get; private set; }
         public EventTypes EventType { get; private set; }
         public ArrayList Parameters { get; private set; }
     }
