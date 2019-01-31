@@ -123,8 +123,7 @@ namespace ScriptDotNet2.Network
                     break;
 
                 case PacketType.SCExecEventProc:
-                    var eventCode = packet.Data[0];
-                    var eventType = (EventTypes)packet.Data[1];
+                    var eventType = (EventTypes)packet.Data[0];
 
 
                     ArrayList parameters = new ArrayList();
@@ -160,7 +159,7 @@ namespace ScriptDotNet2.Network
                     }
 
 
-                    ExecEventProcData data = new ExecEventProcData(eventCode, eventType, parameters);
+                    ExecEventProcData data = new ExecEventProcData(eventType, parameters);
                     new Task(() => OnServerEventRecieve(data)).Start();
                     break;
                 default:
