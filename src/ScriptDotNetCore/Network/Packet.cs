@@ -119,7 +119,7 @@ namespace ScriptDotNet2.Network
 
         public byte[] GetBytes()
         {
-            byte[] buffer = new byte[DataLength + 4];
+            byte[] buffer = new byte[DataLength + 6];
             Array.Copy(BitConverter.GetBytes((ushort)Method), 0, buffer, 0, 2);
             Array.Copy(BitConverter.GetBytes(DataLength), 0, buffer, 2, 4);
             Array.Copy(Data, 0, buffer, 6, DataLength);
