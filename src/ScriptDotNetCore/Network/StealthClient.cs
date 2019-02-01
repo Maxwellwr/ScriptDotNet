@@ -127,7 +127,7 @@ namespace ScriptDotNet2.Network
 
 
                     ArrayList parameters = new ArrayList();
-                    using (var stream = new MemoryStream(packet.Data, 2, packet.DataLength - 2))
+                    using (var stream = new MemoryStream(packet.Data, 2, packet.Data.Length - 2))
                     using (var reader = new BinaryReader(stream))
                     {
                         while (stream.Position < stream.Length - 1)
