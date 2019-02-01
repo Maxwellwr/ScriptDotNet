@@ -16,7 +16,7 @@ namespace ScriptDotNet2.Network
         }
 
         public PacketType Method;
-        public short DataLength { get { return (uint)Data.Length; } }
+        public uint DataLength { get { return (uint)Data.Length; } }
         public byte[] Data;
         public byte[] UnusedData;
         
