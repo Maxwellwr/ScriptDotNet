@@ -83,7 +83,7 @@ namespace ScriptDotNet2.Network
 
                         Packet packet = new Packet();
                         packet.Method = (PacketType)_reader.ReadUInt16();
-                        var dataLength = _reader.ReadUInt16();
+                        var dataLength = _reader.ReadUInt32();
                         packet.Data = _reader.ReadBytes(dataLength);
                         packet.UnusedData = _reader.ReadBytes((int)(packetLen - 4U - 2U - 2U - dataLength));
 
