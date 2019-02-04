@@ -85,7 +85,7 @@ namespace ScriptDotNet2.Network
                         packet.Method = (PacketType)_reader.ReadUInt16();
                         var dataLength = _reader.ReadUInt32();
                         packet.Data = _reader.ReadBytes((int)(dataLength));
-                        packet.UnusedData = _reader.ReadBytes((int)(packetLen - 4U - 2U - 2U - dataLength));
+                        packet.UnusedData = _reader.ReadBytes((int)(packetLen - 4U - 2U - 4U - dataLength));
 
                         Trace.WriteLineIf(packet.UnusedData.Length > 0, 
                             $"Read packet. Type: {packet.Method}, UnusedData: {string.Join(",", packet.UnusedData.Select(b => b.ToString("X2")))}", "Stealth.Network");
