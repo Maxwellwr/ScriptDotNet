@@ -16,7 +16,7 @@ namespace ScriptDotNet2.Network
         }
 
         public PacketType Method;
-        public short DataLength { get { return (short)Data.Length; } }
+        public int DataLength { get { return Data.Length; } }
         public byte[] Data;
         public byte[] UnusedData;
         
@@ -119,10 +119,10 @@ namespace ScriptDotNet2.Network
 
         public byte[] GetBytes()
         {
-            byte[] buffer = new byte[DataLength + 4];
+            byte[] buffer = new byte[DataLength + 6];
             Array.Copy(BitConverter.GetBytes((ushort)Method), 0, buffer, 0, 2);
-            Array.Copy(BitConverter.GetBytes(DataLength), 0, buffer, 2, 2);
-            Array.Copy(Data, 0, buffer, 4, DataLength);
+            Array.Copy(BitConverter.GetBytes(DataLength), 0, buffer, 2, 4);
+            Array.Copy(Data, 0, buffer, 6, DataLength);
             return buffer;
         }
     }

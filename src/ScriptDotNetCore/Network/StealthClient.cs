@@ -83,9 +83,9 @@ namespace ScriptDotNet2.Network
 
                         Packet packet = new Packet();
                         packet.Method = (PacketType)_reader.ReadUInt16();
-                        var dataLength = _reader.ReadUInt16();
-                        packet.Data = _reader.ReadBytes(dataLength);
-                        packet.UnusedData = _reader.ReadBytes((int)(packetLen - 4U - 2U - 2U - dataLength));
+                        var dataLength = _reader.ReadUInt32();
+                        packet.Data = _reader.ReadBytes((int)(dataLength));
+                        packet.UnusedData = _reader.ReadBytes((int)(packetLen - 4U - 2U - 4U - dataLength));
 
                         Trace.WriteLineIf(packet.UnusedData.Length > 0, 
                             $"Read packet. Type: {packet.Method}, UnusedData: {string.Join(",", packet.UnusedData.Select(b => b.ToString("X2")))}", "Stealth.Network");
@@ -123,8 +123,7 @@ namespace ScriptDotNet2.Network
                     break;
 
                 case PacketType.SCExecEventProc:
-                    var eventCode = packet.Data[0];
-                    var eventType = (EventTypes)packet.Data[1];
+                    var eventType = (EventTypes)packet.Data[0];
 
 
                     ArrayList parameters = new ArrayList();
@@ -160,7 +159,7 @@ namespace ScriptDotNet2.Network
                     }
 
 
-                    ExecEventProcData data = new ExecEventProcData(eventCode, eventType, parameters);
+                    ExecEventProcData data = new ExecEventProcData(eventType, parameters);
                     new Task(() => OnServerEventRecieve(data)).Start();
                     break;
                 default:
