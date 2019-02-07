@@ -276,5 +276,9 @@ namespace ScriptDotNet2.Services
         {
             return _client.SendPacket<int>(PacketType.SCStepQ, direction, running);
         }
+        public void Stop()
+        {
+            return _client.SendPacket(PacketType.SCMoverStop);
+        }
     }
 }
