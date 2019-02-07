@@ -371,13 +371,28 @@ namespace ScriptDotNet2.Network
         SCGetContextMenuRec = 345,
         SCClearSystemJournal = 346,
         SCGetMultis = 347,
-
         SCClearInfoWindow = 348,
-        SCSetMoveOpenDoor = 349,
-        SCGetMoveOpenDoor = 350,
-        SCSetMoveThroughNPC = 351,
-        SCGetMoveThroughNPC = 352,
-        SCGetBuffBarInfo = 353,
+        SCGetBuffBarInfo = 349,
+        SCConvertIntegerToFlags = 350,
+        SCSkillCurrentValue = 351,
+        SCChangeProfileEx = 352,
+        SCMoverStop = 353,
+
+        SCSetMoveOpenDoor = 400,
+        SCGetMoveOpenDoor = 401,
+        SCSetMoveThroughNPC = 402,
+        SCGetMoveThroughNPC = 403,
+        SCSetMoveThroughCorner = 404,
+        SCGetMoveThroughCorner = 405,
+        SCSetMoveHeuristicMult = 406,
+        SCGetMoveHeuristicMult = 407,
+        SCSetMoveCheckStamina = 408,
+        SCGetMoveCheckStamina = 409,
+        SCSetMoveTurnCost = 410,
+        SCGetMoveTurnCost = 411,
+        SCSetMoveBetweenTwoCorners = 412,
+        SCGetMoveBetweenTwoCorners = 413,
+
         //26.05.2016
         SCConvertIntegerToFlags = 354, 
         SCSkillCurrentValue = 355,
@@ -388,12 +403,13 @@ namespace ScriptDotNet2.Network
         SCSkype_NickByID = 360,
         SCSkype_IDByNick = 361,
 
-        //06.03.2018
-        SCMessenger_GetConnected = 368,
-        SCMessenger_SetConnected = 369,
-        SCMessenger_GetToken = 370,
-        SCMessenger_SetToken = 371,
-        SCMessenger_GetName = 372,
-        SCMessenger_SendMessage = 373,
+        SCSetARExtParams = 367,
+        
+        SCMessenger_GetConnected = 501,
+        SCMessenger_SetConnected = 502,
+        SCMessenger_GetToken = 503,
+        SCMessenger_SetToken = 504,
+        SCMessenger_GetName = 505,
+        SCMessenger_SendMessage = 506,
     }
 }
