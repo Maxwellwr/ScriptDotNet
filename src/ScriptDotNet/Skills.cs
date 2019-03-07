@@ -13,7 +13,7 @@ namespace ScriptDotNet2
         public const string AnimalLore = "Animal Lore";
         public const string AnimalTaming = "Animal Taming";
         public const string Archery = "Archery";
-        public const string Armslore = "Armslore";
+        public const string Armslore = "Arms Lore";
         public const string Begging = "Begging";
         public const string Blacksmithy = "Blacksmithy";
         public const string Bowcraft = "Bowcraft";
