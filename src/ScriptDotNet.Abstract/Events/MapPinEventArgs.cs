@@ -4,7 +4,7 @@ namespace ScriptDotNet
 {
     public class MapPinEventArgs : EventArgs
     {
-        public MapPinEventArgs(uint id, byte action, byte pinId, ushort x, ushort y)
+        public MapPinEventArgs(int id, byte action, byte pinId, ushort x, ushort y)
         {
             ID = id;
             Action = action;
@@ -13,7 +13,7 @@ namespace ScriptDotNet
             Y = y;
         }
 
-        public uint ID { get; private set; }
+        public int ID { get; private set; }
         public byte Action { get; set; }
         public byte PinId { get; set; }
         public ushort X { get; set; }

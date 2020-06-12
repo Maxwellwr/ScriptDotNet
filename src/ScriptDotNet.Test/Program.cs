@@ -29,7 +29,33 @@ namespace ScriptDotNet.Test
             var stealthService = serviceProvider.GetService<IStealthService>();
             Console.WriteLine(stealthService.StealthInfo.StealthVersion);
 
-            serviceProvider.GetService<IEventSystemService>().ClilocSpeech += Program_ClilocSpeech;
+            var eventSystem = serviceProvider.GetService<IEventSystemService>();
+            //eventSystem.AddItemToContainer += (o, e) => Console.WriteLine("AddItemToContainer " + e.ItemId);
+            //eventSystem.AddMultipleItemsInContainer += (o, e) => Console.WriteLine("AddMultipleItemsInContainer " + e.ContainerId);
+            eventSystem.AllowRefuseAttack += (o, e) => Console.WriteLine("AllowRefuseAttack " + e.IsAttackOK);
+            eventSystem.Buff_DebuffSystem += (o, e) => Console.WriteLine("Buff_DebuffSystem " + e.AttributeId);
+            //eventSystem.CharAnimation += (o, e) => Console.WriteLine("CharAnimation " + e.Action);
+            eventSystem.ClientSendResync += (o, e) => Console.WriteLine("ClientSendResync " + "resync");
+            //eventSystem.ClilocSpeech += (o, e) => Console.WriteLine("ClilocSpeech " + e.Text);
+            eventSystem.ClilocSpeechAffix += (o, e) => Console.WriteLine("ClilocSpeechAffix " + e.Text);
+            eventSystem.Death += (o, e) => Console.WriteLine("Death " + e.IsDead);
+            //eventSystem.DrawContainer += (o, e) => Console.WriteLine("DrawContainer " + e.ModelGump);
+            eventSystem.DrawGamePlayer += (o, e) => Console.WriteLine("DrawGamePlayer " + e.ObjectId);
+            //eventSystem.DrawObject += (o, e) => Console.WriteLine("DrawObject " + e.ObjectId);
+            eventSystem.GraphicalEffect += (o, e) => Console.WriteLine("GraphicalEffect " + e.ItemId);
+            eventSystem.GumpTextEntry += (o, e) => Console.WriteLine("GumpTextEntry " + e.Title);
+            eventSystem.IncomingGump += (o, e) => Console.WriteLine("IncomingGump " + e.GumpId);
+            //eventSystem.ItemDeleted += (o, e) => Console.WriteLine("ItemDeleted " + e.ItemId);
+            //eventSystem.ItemInfo += (o, e) => Console.WriteLine("ItemInfo " + e.ItemId);
+            eventSystem.MapMessage += (o, e) => Console.WriteLine("MapMessage " + e.ItemId);
+            eventSystem.MapPin += (o, e) => Console.WriteLine("MapPin " + e.PinId);
+            eventSystem.Menu += (o, e) => Console.WriteLine("Menu " + e.MenuId);
+            eventSystem.MoveRejection += (o, e) => Console.WriteLine("MoveRejection " + e.Direction);
+            eventSystem.PartyInvite += (o, e) => Console.WriteLine("PartyInvite " + e.InviterId);
+            eventSystem.QuestArrow += (o, e) => Console.WriteLine("QuestArrow " + e.IsActive);
+            eventSystem.WindowsMessage += (o, e) => Console.WriteLine("WindowsMessage " + e.LParam);
+            eventSystem.Speech += (o, e) => Console.WriteLine("Speech " + e.Text);
+            eventSystem.UnicodeSpeech += (o, e) => Console.WriteLine("UnicodeSpeech " + e.Text);
 
             ConsoleKey key;
             do
@@ -336,9 +362,5 @@ namespace ScriptDotNet.Test
 
         }
 
-        private static void Program_ClilocSpeech(object sender, ClilocSpeechEventArgs e)
-        {
-            Console.WriteLine(e.Text);
-        }
     }
 }

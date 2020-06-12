@@ -2,7 +2,7 @@
 {
     public class MapMessageEventArgs : ItemEventArgs
     {
-        public MapMessageEventArgs(uint itemId, int centerX, int centerY)
+        public MapMessageEventArgs(int itemId, int centerX, int centerY)
             : base(itemId)
         {
             CenterX = centerX;

@@ -4,7 +4,7 @@ namespace ScriptDotNet
 {
     public class UnicodeSpeechEventArgs : EventArgs
     {
-        public UnicodeSpeechEventArgs(string text, string senderName, uint senderId)
+        public UnicodeSpeechEventArgs(string text, string senderName, int senderId)
         {
             Text = text;
             SenderName = senderName;
@@ -12,7 +12,7 @@ namespace ScriptDotNet
         }
         public string Text { get; private set; }
         public string SenderName { get; private set; }
-        public uint SenderId { get; private set; }
+        public int SenderId { get; private set; }
     }
 
 

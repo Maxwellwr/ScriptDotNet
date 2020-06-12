@@ -4,17 +4,17 @@ namespace ScriptDotNet
 {
     public class IncomingGumpEventArgs : EventArgs
     {
-        public IncomingGumpEventArgs(uint serial, uint gumpId, uint x, uint y)
+        public IncomingGumpEventArgs(int serial, int gumpId, int x, int y)
         {
             Serial = serial;
             GumpId = gumpId;
             X = x;
             Y = y;
         }
-        public uint Serial { get; private set; }
-        public uint GumpId { get; private set; }
-        public uint X { get; private set; }
-        public uint Y { get; private set; }
+        public int Serial { get; private set; }
+        public int GumpId { get; private set; }
+        public int X { get; private set; }
+        public int Y { get; private set; }
     }
 
 

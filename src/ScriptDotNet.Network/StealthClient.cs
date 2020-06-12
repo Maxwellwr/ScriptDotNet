@@ -141,13 +141,13 @@ namespace ScriptDotNet.Network
                                     parameters.Add(reader.ReadInt32());
                                     break;
                                 case DataType.parCardinal:
-                                    parameters.Add(reader.ReadUInt32());
+                                    parameters.Add(reader.ReadUInt16());
                                     break;
                                 case DataType.parBoolean:
                                     parameters.Add(reader.ReadBoolean());
                                     break;
                                 case DataType.parWord:
-                                    parameters.Add(reader.ReadUInt16());
+                                    parameters.Add(reader.ReadInt16());
                                     break;
                                 case DataType.parByte:
                                     parameters.Add(reader.ReadByte());

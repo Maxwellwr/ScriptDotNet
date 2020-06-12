@@ -4,11 +4,11 @@ namespace ScriptDotNet
 {
     public class WindowsMessageEventArgs : EventArgs
     {
-        public WindowsMessageEventArgs(uint lParam)
+        public WindowsMessageEventArgs(int lParam)
         {
             LParam = lParam;
         }
-        public uint LParam { get; private set; }
+        public int LParam { get; private set; }
     }
 
 

@@ -2,7 +2,7 @@
 {
     public class Buff_DebuffSystemEventArgs : ObjectEventArgs
     {
-        public Buff_DebuffSystemEventArgs(uint objectId, ushort attributeId, bool isEnabled)
+        public Buff_DebuffSystemEventArgs(int objectId, ushort attributeId, bool isEnabled)
             : base(objectId)
         {
             AttributeId = attributeId;

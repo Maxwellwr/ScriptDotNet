@@ -4,11 +4,11 @@ namespace ScriptDotNet
 {
     public class ItemEventArgs : EventArgs
     {
-        public ItemEventArgs(uint itemId)
+        public ItemEventArgs(int itemId)
         {
             ItemId = itemId;
         }
-        public uint ItemId { get; private set; }
+        public int ItemId { get; private set; }
     }
 
 

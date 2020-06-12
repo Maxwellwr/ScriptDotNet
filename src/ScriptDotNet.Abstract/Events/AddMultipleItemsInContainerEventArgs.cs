@@ -4,11 +4,11 @@ namespace ScriptDotNet
 {
     public class AddMultipleItemsInContainerEventArgs : EventArgs
     {
-        public AddMultipleItemsInContainerEventArgs(uint containerId)
+        public AddMultipleItemsInContainerEventArgs(int containerId)
         {
             ContainerId = containerId;
         }
-        public uint ContainerId { get; private set; }
+        public int ContainerId { get; private set; }
     }
 
 

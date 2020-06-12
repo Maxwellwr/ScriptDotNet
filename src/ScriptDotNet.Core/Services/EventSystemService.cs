@@ -897,46 +897,46 @@ namespace ScriptDotNet.Services
             switch (data.EventType)
             {
                 case EventTypes.ItemInfo:
-                    OnItemInfo((uint)data.Parameters[0]);
+                    OnItemInfo((int)data.Parameters[0]);
                     break;
                 case EventTypes.ItemDeleted:
-                    OnItemDeleted((uint)data.Parameters[0]);
+                    OnItemDeleted((int)data.Parameters[0]);
                     break;
                 case EventTypes.Speech:
                     OnSpeech((string)data.Parameters[0], (string)data.Parameters[1], (int)data.Parameters[2]);
                     break;
                 case EventTypes.DrawGamePlayer:
-                    OnDrawGamePlayer((uint)data.Parameters[0]);
+                    OnDrawGamePlayer((int)data.Parameters[0]);
                     break;
                 case EventTypes.MoveRejection:
                     OnMoveRejection((ushort)data.Parameters[0], (ushort)data.Parameters[1], (byte)data.Parameters[2], (ushort)data.Parameters[3], (ushort)data.Parameters[4]);
                     break;
                 case EventTypes.DrawContainer:
-                    OnDrawContainer((uint)data.Parameters[0], (ushort)data.Parameters[1]);
+                    OnDrawContainer((int)data.Parameters[0], (ushort)data.Parameters[1]);
                     break;
                 case EventTypes.AddItemToContainer:
-                    OnAddItemToContainer((uint)data.Parameters[0], (uint)data.Parameters[1]);
+                    OnAddItemToContainer((int)data.Parameters[0], (int)data.Parameters[1]);
                     break;
                 case EventTypes.AddMultipleItemsInCont:
-                    OnAddMultipleItemsInContainer((uint)data.Parameters[0]);
+                    OnAddMultipleItemsInContainer((int)data.Parameters[0]);
                     break;
                 case EventTypes.RejectMoveItem:
                     OnRejectMoveItem((RejectMoveItemReason)data.Parameters[0]);
                     break;
                 case EventTypes.UpdateChar:
-                    OnUpdateChar((uint)data.Parameters[0]);
+                    OnUpdateChar((int)data.Parameters[0]);
                     break;
                 case EventTypes.DrawObject:
-                    OnDrawObject((uint)data.Parameters[0]);
+                    OnDrawObject((int)data.Parameters[0]);
                     break;
                 case EventTypes.Menu:
-                    OnMenu((uint)data.Parameters[0], (ushort)data.Parameters[1]);
+                    OnMenu((int)data.Parameters[0], (ushort)data.Parameters[1]);
                     break;
                 case EventTypes.MapMessage:
-                    OnMapMessage((uint)data.Parameters[0], (int)data.Parameters[1], (int)data.Parameters[2]);
+                    OnMapMessage((int)data.Parameters[0], (int)data.Parameters[1], (int)data.Parameters[2]);
                     break;
                 case EventTypes.Allow_RefuseAttack:
-                    OnAllowRefuseAttack((uint)data.Parameters[0], Convert.ToBoolean(data.Parameters[1]));
+                    OnAllowRefuseAttack((int)data.Parameters[0], Convert.ToBoolean(data.Parameters[1]));
                     break;
                 case EventTypes.ClilocSpeech:
                     OnClilocSpeech((int)data.Parameters[0], (string)data.Parameters[1], (int)data.Parameters[2], (string)data.Parameters[3]);
@@ -945,16 +945,16 @@ namespace ScriptDotNet.Services
                     OnClilocSpeechAffix((int)data.Parameters[0], (string)data.Parameters[1], (int)data.Parameters[2], (string)data.Parameters[3], (string)data.Parameters[4]);
                     break;
                 case EventTypes.UnicodeSpeech:
-                    OnUnicodeSpeech((string)data.Parameters[0], (string)data.Parameters[1], (uint)data.Parameters[2]);
+                    OnUnicodeSpeech((string)data.Parameters[0], (string)data.Parameters[1], (int)data.Parameters[2]);
                     break;
                 case EventTypes.Buff_DebuffSystem:
-                    OnBuff_DebuffSystem((uint)data.Parameters[0], (ushort)data.Parameters[1], (bool)data.Parameters[2]);
+                    OnBuff_DebuffSystem((int)data.Parameters[0], (ushort)data.Parameters[1], (bool)data.Parameters[2]);
                     break;
                 case EventTypes.ClientSendResync:
                     OnClientSendResync();
                     break;
                 case EventTypes.CharAnimation:
-                    OnCharAnimation((uint)data.Parameters[0], (uint)data.Parameters[1]);
+                    OnCharAnimation((int)data.Parameters[0], (ushort)data.Parameters[1]);
                     break;
                 case EventTypes.ICQDisconnect:
                     OnICQDisconnect();
@@ -963,13 +963,13 @@ namespace ScriptDotNet.Services
                     OnICQConnect();
                     break;
                 case EventTypes.ICQIncomingText:
-                    OnICQIncomingText((uint)data.Parameters[0], (string)data.Parameters[1]);
+                    OnICQIncomingText((int)data.Parameters[0], (string)data.Parameters[1]);
                     break;
                 case EventTypes.ICQError:
                     OnICQError((string)data.Parameters[0]);
                     break;
                 case EventTypes.IncomingGump:
-                    OnIncomingGump((uint)data.Parameters[0], (uint)data.Parameters[1], (uint)data.Parameters[2], (uint)data.Parameters[3]);
+                    OnIncomingGump((int)data.Parameters[0], (int)data.Parameters[1], (int)data.Parameters[2], (int)data.Parameters[3]);
                     break;
                 case EventTypes.Timer1:
                     OnTimer1();
@@ -978,10 +978,10 @@ namespace ScriptDotNet.Services
                     OnTimer2();
                     break;
                 case EventTypes.WindowsMessage:
-                    OnWindowsMessage((uint)data.Parameters[0]);
+                    OnWindowsMessage((int)data.Parameters[0]);
                     break;
                 case EventTypes.Sound:
-                    OnSound((ushort)data.Parameters[0], (ushort)data.Parameters[1], (ushort)data.Parameters[2], (int)data.Parameters[3]);
+                    OnSound((ushort)data.Parameters[0], (ushort)data.Parameters[1], (ushort)data.Parameters[2], (short)data.Parameters[3]);
                     break;
                 case EventTypes.Death:
                     OnDeath(Convert.ToBoolean(data.Parameters[0]));
@@ -990,17 +990,17 @@ namespace ScriptDotNet.Services
                     OnQuestArrow((ushort)data.Parameters[0], (ushort)data.Parameters[1], Convert.ToBoolean(data.Parameters[2]));
                     break;
                 case EventTypes.PartyInvite:
-                    OnPartyInvite((uint)data.Parameters[0]);
+                    OnPartyInvite((int)data.Parameters[0]);
                     break;
                 case EventTypes.MapPin:
-                    OnMapPin((uint)data.Parameters[0], (byte)data.Parameters[1], (byte)data.Parameters[2], (ushort)data.Parameters[3], (ushort)data.Parameters[4]);
+                    OnMapPin((int)data.Parameters[0], (byte)data.Parameters[1], (byte)data.Parameters[2], (ushort)data.Parameters[3], (ushort)data.Parameters[4]);
                     break;
                 case EventTypes.GumpTextEntry:
-                    OnGumpTextEntry((uint)data.Parameters[0], (string)data.Parameters[1], (byte)data.Parameters[2], (uint)data.Parameters[3], (string)data.Parameters[4]);
+                    OnGumpTextEntry((int)data.Parameters[0], (string)data.Parameters[1], (byte)data.Parameters[2], (int)data.Parameters[3], (string)data.Parameters[4]);
                     break;
                 case EventTypes.GraphicalEffect:
-                    OnGraphicalEffect((uint)data.Parameters[0], (ushort)data.Parameters[1], (ushort)data.Parameters[2], (int)data.Parameters[3],
-                        (uint)data.Parameters[4], (ushort)data.Parameters[5], (ushort)data.Parameters[6], (int)data.Parameters[7],
+                    OnGraphicalEffect((int)data.Parameters[0], (ushort)data.Parameters[1], (ushort)data.Parameters[2], (short)data.Parameters[3],
+                        (int)data.Parameters[4], (ushort)data.Parameters[5], (ushort)data.Parameters[6], (short)data.Parameters[7],
                         (byte)data.Parameters[8], (ushort)data.Parameters[9], (byte)data.Parameters[10]);
                     break;
                 case EventTypes.IRCIncomingText:
@@ -1014,13 +1014,13 @@ namespace ScriptDotNet.Services
                     OnSetGlobalVar((string)data.Parameters[0], (string)data.Parameters[1]);
                     break;
                 case EventTypes.UpdateObjStats:
-                    OnUpdateObjectStats((uint)data.Parameters[0], (int)data.Parameters[1], (int)data.Parameters[2], (int)data.Parameters[3], (int)data.Parameters[4], (int)data.Parameters[5], (int)data.Parameters[6]);
+                    OnUpdateObjectStats((int)data.Parameters[0], (int)data.Parameters[1], (int)data.Parameters[2], (int)data.Parameters[3], (int)data.Parameters[4], (int)data.Parameters[5], (int)data.Parameters[6]);
                     break;
             }
             #endregion
         }
 
-        private void OnUpdateObjectStats(uint objectId, int currentLife, int maxLife, int currentMana, int maxMana, int currentStamina, int maxStamina)
+        private void OnUpdateObjectStats(int objectId, int currentLife, int maxLife, int currentMana, int maxMana, int currentStamina, int maxStamina)
         {
             _updateObjectStats?.Invoke(this, new UpdateObjectStatsEventArgs(objectId, currentLife, maxLife, currentMana, maxMana, currentStamina, maxStamina));
         }
@@ -1040,22 +1040,22 @@ namespace ScriptDotNet.Services
             _IRCIncomingText?.Invoke(this, new IRCIncomingTextEventArgs(message));
         }
 
-        private void OnGraphicalEffect(uint srcId, ushort srcX, ushort srcY, int srcZ, uint dstId, ushort dstX, ushort dstY, int dstZ, byte type, ushort itemId, byte fixedDir)
+        private void OnGraphicalEffect(int srcId, ushort srcX, ushort srcY, short srcZ, int dstId, ushort dstX, ushort dstY, short dstZ, byte type, ushort itemId, byte fixedDir)
         {
             _graphicalEffect?.Invoke(this, new GraphicalEffectEventArgs(srcId, srcX, srcY, srcZ, dstId, dstX, dstY, dstZ, type, itemId, fixedDir));
         }
 
-        private void OnGumpTextEntry(uint gumpTextEntryId, string title, byte inputStyle, uint maxValue, string title2)
+        private void OnGumpTextEntry(int gumpTextEntryId, string title, byte inputStyle, int maxValue, string title2)
         {
             _gumpTextEntry?.Invoke(this, new GumpTextEntryEventArgs(gumpTextEntryId, title, inputStyle, maxValue, title2));
         }
 
-        private void OnMapPin(uint id, byte action, byte pinId, ushort x, ushort y)
+        private void OnMapPin(int id, byte action, byte pinId, ushort x, ushort y)
         {
             _mapPin?.Invoke(this, new MapPinEventArgs(id, action, pinId, x, y));
         }
 
-        private void OnPartyInvite(uint inviterId)
+        private void OnPartyInvite(int inviterId)
         {
             _partyInvite?.Invoke(this, new PartyInviteEventArgs(inviterId));
         }
@@ -1070,12 +1070,12 @@ namespace ScriptDotNet.Services
             _death?.Invoke(this, new DeathEventArgs(isDead));
         }
 
-        private void OnSound(ushort soundId, ushort x, ushort y, int z)
+        private void OnSound(ushort soundId, ushort x, ushort y, short z)
         {
             _sound?.Invoke(this, new SoundEventArgs(soundId, x, y, z));
         }
 
-        private void OnWindowsMessage(uint lParam)
+        private void OnWindowsMessage(int lParam)
         {
             _windowsMessage?.Invoke(this, new WindowsMessageEventArgs(lParam));
         }
@@ -1090,7 +1090,7 @@ namespace ScriptDotNet.Services
             _timer1?.Invoke(this, new EventArgs());
         }
 
-        private void OnIncomingGump(uint serial, uint gumpId, uint x, uint y)
+        private void OnIncomingGump(int serial, int gumpId, int x, int y)
         {
             _incomingGump?.Invoke(this, new IncomingGumpEventArgs(serial, gumpId, x, y));
         }
@@ -1100,7 +1100,7 @@ namespace ScriptDotNet.Services
             _ICQError?.Invoke(this, new ICQErrorEventArgs(text));
         }
 
-        private void OnICQIncomingText(uint uin, string text)
+        private void OnICQIncomingText(int uin, string text)
         {
             _ICQIncomingText?.Invoke(this, new ICQIncomingTextEventArgs(uin, text));
         }
@@ -1115,7 +1115,7 @@ namespace ScriptDotNet.Services
             _ICQDisconnect?.Invoke(this, new EventArgs());
         }
 
-        private void OnCharAnimation(uint objectId, uint action)
+        private void OnCharAnimation(int objectId, ushort action)
         {
             _charAnimation?.Invoke(this, new CharAnimationEventArgs(objectId, action));
         }
@@ -1125,12 +1125,12 @@ namespace ScriptDotNet.Services
             _clientSendResync?.Invoke(this, new EventArgs());
         }
 
-        private void OnBuff_DebuffSystem(uint objectId, ushort attributeId, bool isEnabled)
+        private void OnBuff_DebuffSystem(int objectId, ushort attributeId, bool isEnabled)
         {
             _buffDebuffSystem?.Invoke(this, new Buff_DebuffSystemEventArgs(objectId, attributeId, isEnabled));
         }
 
-        private void OnUnicodeSpeech(string text, string senderName, uint senderId)
+        private void OnUnicodeSpeech(string text, string senderName, int senderId)
         {
             _unicodeSpeech?.Invoke(this, new UnicodeSpeechEventArgs(text, senderName, senderId));
         }
@@ -1145,27 +1145,27 @@ namespace ScriptDotNet.Services
             _clilocSpeech?.Invoke(this, new ClilocSpeechEventArgs(senderId, senderName, clilocId, text));
         }
 
-        private void OnAllowRefuseAttack(uint targetId, bool isAttackOk)
+        private void OnAllowRefuseAttack(int targetId, bool isAttackOk)
         {
             _allowRefuseAttack?.Invoke(this, new AllowRefuseAttackEventArgs(targetId, isAttackOk));
         }
 
-        private void OnMapMessage(uint itemId, int centerX, int centerY)
+        private void OnMapMessage(int itemId, int centerX, int centerY)
         {
             _mapMessage?.Invoke(this, new MapMessageEventArgs(itemId, centerX, centerY));
         }
 
-        private void OnMenu(uint dialogId, ushort menuId)
+        private void OnMenu(int dialogId, ushort menuId)
         {
             _menu?.Invoke(this, new MenuEventArgs(dialogId, menuId));
         }
 
-        private void OnDrawObject(uint objectId)
+        private void OnDrawObject(int objectId)
         {
             _drawObject?.Invoke(this, new ObjectEventArgs(objectId));
         }
 
-        private void OnUpdateChar(uint objectId)
+        private void OnUpdateChar(int objectId)
         {
             _updateChar?.Invoke(this, new ObjectEventArgs(objectId));
         }
@@ -1175,17 +1175,17 @@ namespace ScriptDotNet.Services
             _rejectMoveItem?.Invoke(this, new RejectMoveItemEventArgs(reason));
         }
 
-        private void OnAddMultipleItemsInContainer(uint containerId)
+        private void OnAddMultipleItemsInContainer(int containerId)
         {
             _addMultipleItemsInContainer?.Invoke(this, new AddMultipleItemsInContainerEventArgs(containerId));
         }
 
-        private void OnAddItemToContainer(uint itemId, uint containerId)
+        private void OnAddItemToContainer(int itemId, int containerId)
         {
             _addItemToContainer?.Invoke(this, new AddItemToContainerEventArgs(itemId, containerId));
         }
 
-        private void OnDrawContainer(uint containerId, ushort modelGump)
+        private void OnDrawContainer(int containerId, ushort modelGump)
         {
             _drawContainer?.Invoke(this, new DrawContainerEventArgs(containerId, modelGump));
         }
@@ -1195,7 +1195,7 @@ namespace ScriptDotNet.Services
             _moveRejection?.Invoke(this, new MoveRejectionEventArgs(xSource, ySource, direction, xDest, yDest));
         }
 
-        private void OnDrawGamePlayer(uint objectId)
+        private void OnDrawGamePlayer(int objectId)
         {
             _drawGamePlayer?.Invoke(this, new ObjectEventArgs(objectId));
         }
@@ -1205,12 +1205,12 @@ namespace ScriptDotNet.Services
             _speech?.Invoke(this, new SpeechEventArgs(text, senderName, senderId));
         }
 
-        private void OnItemDeleted(uint itemId)
+        private void OnItemDeleted(int itemId)
         {
             _itemDeleted?.Invoke(this, new ItemEventArgs(itemId));
         }
 
-        private void OnItemInfo(uint itemId)
+        private void OnItemInfo(int itemId)
         {
             _itemInfo?.Invoke(this, new ItemEventArgs(itemId));
         }

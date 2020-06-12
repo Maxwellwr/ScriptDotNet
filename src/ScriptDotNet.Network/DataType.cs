@@ -4,7 +4,7 @@
     {
         parUnicodeString = 0,
         parInteger = 1,
-        parBoolean = 2,
+        parBoolean = 7,
         parCardinal = 3,
         parWord = 4,
         parByte = 5,

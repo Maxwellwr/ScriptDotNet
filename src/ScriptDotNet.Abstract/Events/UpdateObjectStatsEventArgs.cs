@@ -4,7 +4,7 @@ namespace ScriptDotNet
 {
     public class UpdateObjectStatsEventArgs : EventArgs
     {
-        public UpdateObjectStatsEventArgs(uint objectId, int currentLife, int maxLife, int currentMana, int maxMana, int currentStamina, int maxStamina)
+        public UpdateObjectStatsEventArgs(int objectId, int currentLife, int maxLife, int currentMana, int maxMana, int currentStamina, int maxStamina)
         {
             ObjectId = objectId;
             CurrentLife = currentLife;
@@ -15,7 +15,7 @@ namespace ScriptDotNet
             MaxStamina = maxStamina;
         }
 
-        public uint ObjectId { get; set; }
+        public int ObjectId { get; set; }
         public int CurrentLife { get; set; }
         public int MaxLife { get; set; }
         public int CurrentMana { get; set; }

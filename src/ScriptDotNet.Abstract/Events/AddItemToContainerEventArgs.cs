@@ -2,12 +2,12 @@
 {
     public class AddItemToContainerEventArgs : ItemEventArgs
     {
-        public AddItemToContainerEventArgs(uint itemId, uint containerId)
+        public AddItemToContainerEventArgs(int itemId, int containerId)
             : base(itemId)
         {
             ContainerId = containerId;
         }
-        public uint ContainerId { get; private set; }
+        public int ContainerId { get; private set; }
     }
 
 
