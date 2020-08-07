@@ -8,7 +8,7 @@ namespace ScriptDotNet
 {
     public partial class Stealth : IDisposable
     {
-        private readonly Version SUPPORTED_VERSION = new Version(8, 8, 5, 0);
+        private readonly Version SUPPORTED_VERSION = new Version(8, 10, 6, 0);
 
         #region Events
         public event EventHandler<StartStopEventArgs> StartStop;
@@ -45,10 +45,17 @@ namespace ScriptDotNet
             _client.StartStopRecieve += _client_StartStopRecieve;
             _client.TerminateRecieve += _client_TerminateRecieve;
             _client.Connect();
+            SetScriptType();
             CheckSupportedVersion();
+
         }
 
         public T GetStealthService<T>() => _serviceProvider.GetService<T>();
+
+        private void SetScriptType()
+        {
+            _client.SendPacket(PacketType.SCLangType, (byte)3);
+        }
 
         private void CheckSupportedVersion()
         {

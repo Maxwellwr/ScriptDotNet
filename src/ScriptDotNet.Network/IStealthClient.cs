@@ -11,6 +11,5 @@ namespace ScriptDotNet.Network
         void Connect();
         void SendPacket(PacketType packetType, params object[] parameters);
         T SendPacket<T>(PacketType packetType, params object[] parameters);
-        T WaitReply<T>(PacketType type);
     }
 }

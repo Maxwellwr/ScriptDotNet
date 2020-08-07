@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Buffers.Binary;
 
 namespace ScriptDotNet.Network
 {
@@ -10,13 +11,12 @@ namespace ScriptDotNet.Network
         public Packet()
         {
             Data = new byte[0];
-            UnusedData = new byte[0];
         }
 
         public PacketType Method;
+        public ushort ReturnId;
         public int DataLength { get { return Data.Length; } }
         public byte[] Data;
-        public byte[] UnusedData;
         
         public override string ToString()
         {
@@ -117,11 +117,11 @@ namespace ScriptDotNet.Network
 
         public byte[] GetBytes()
         {
-            byte[] buffer = new byte[DataLength + 6];
-            Array.Copy(BitConverter.GetBytes((ushort)Method), 0, buffer, 0, 2);
-            Array.Copy(BitConverter.GetBytes(DataLength), 0, buffer, 2, 4);
-            Array.Copy(Data, 0, buffer, 6, DataLength);
-            return buffer;
+            Span<byte> buffer = stackalloc byte[DataLength + 4];
+            BinaryPrimitives.WriteUInt16LittleEndian(buffer.Slice(0, 2), (ushort)Method);
+            BinaryPrimitives.WriteUInt16LittleEndian(buffer.Slice(2, 2), ReturnId);
+            new Span<byte>(Data).CopyTo(buffer.Slice(4, DataLength));
+            return buffer.ToArray();
         }
     }
 }

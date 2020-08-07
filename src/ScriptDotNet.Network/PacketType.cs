@@ -7,6 +7,7 @@
         SCScriptDLLTerminate = 2,
         SCExecEventProc = 3,
         SCPauseResumeScript = 4,
+        SCLangType = 5,
 
         SCClearEventProc = 7,
         SCGetProfileName = 8,
