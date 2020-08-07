@@ -9,11 +9,16 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net471</TargetFrameworks>
-    <Authors>Maslich M.</Authors>
-    <Company>Maxwellwr</Company>
-    <Version>0.1.0-alpha1</Version>
+    <Authors>Maxwell</Authors>
+    <Company></Company>
+    <Version>8.10.6</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageId>Stealth.Scripts</PackageId>
+    <PackageId>ScriptDotNet</PackageId>
+    <RepositoryUrl>https://github.com/Maxwellwr/ScriptDotNet.git</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <Description>C# implementation for Stealth External Scripts</Description>
+    <Product>ScriptDotNet</Product>
+    <PackageProjectUrl>https://github.com/Maxwellwr/ScriptDotNet</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

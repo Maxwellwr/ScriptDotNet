@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net471</TargetFrameworks>
+    <Authors>Maxwell</Authors>
+    <Product>ScriptDotNet</Product>
+    <Description>Network implementation for ScriptDotNet</Description>
+    <RepositoryUrl>https://github.com/Maxwellwr/ScriptDotNet.git</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <Version>8.10.6</Version>
+    <PackageProjectUrl>https://github.com/Maxwellwr/ScriptDotNet</PackageProjectUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
