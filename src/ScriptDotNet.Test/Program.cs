@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+
 using ScriptDotNet.Services;
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScriptDotNet.Test
 {
@@ -12,17 +10,22 @@ namespace ScriptDotNet.Test
     {
         static void Main(string[] args)
         {
-            int GetPortFromCommandLineArgs()
+            uint GetPortFromCommandLineArgs()
             {
-                if (args.Length > 1 && int.TryParse(args[1], out var p) && p > 50908 && p < 52000)
+                if (args.Length > 0 && uint.TryParse(args[0], out var p))
                     return p;
+
                 return 0;
             }
 
-            int port = GetPortFromCommandLineArgs();
+            uint port = GetPortFromCommandLineArgs();
+
+            Console.WriteLine(port);
+//            System.Threading.Thread.Sleep(10000);
+            Console.WriteLine("RUN!");
 
             IServiceCollection services = new ServiceCollection();
-            services.AddScriptDotNet(port);
+            services.AddScriptDotNet((int)port);
             var serviceProvider = services.BuildServiceProvider();
 
             var stealth = serviceProvider.GetRequiredService<Stealth>();
@@ -37,10 +40,8 @@ namespace ScriptDotNet.Test
             eventSystem.CharAnimation += (o, e) => Console.WriteLine("CharAnimation " + e.Action);
             eventSystem.ClientSendResync += (o, e) => Console.WriteLine("ClientSendResync " + "resync");
             eventSystem.ClilocSpeech += (o, e) => Console.WriteLine("ClilocSpeech " + e.Text);
-            eventSystem.ClilocSpeechAffix += (o, e) => Console.WriteLine("ClilocSpeechAffix " + e.Text);
             eventSystem.Death += (o, e) => Console.WriteLine("Death " + e.IsDead);
             eventSystem.DrawContainer += (o, e) => Console.WriteLine("DrawContainer " + e.ModelGump);
-            eventSystem.DrawGamePlayer += (o, e) => Console.WriteLine("DrawGamePlayer " + e.ObjectId);
             eventSystem.DrawObject += (o, e) => Console.WriteLine("DrawObject " + e.ObjectId);
             eventSystem.GraphicalEffect += (o, e) => Console.WriteLine("GraphicalEffect " + e.ItemId);
             eventSystem.GumpTextEntry += (o, e) => Console.WriteLine("GumpTextEntry " + e.Title);
@@ -55,7 +56,6 @@ namespace ScriptDotNet.Test
             eventSystem.QuestArrow += (o, e) => Console.WriteLine("QuestArrow " + e.IsActive);
             eventSystem.WindowsMessage += (o, e) => Console.WriteLine("WindowsMessage " + e.LParam);
             eventSystem.Speech += (o, e) => Console.WriteLine("Speech " + e.Text);
-            eventSystem.UnicodeSpeech += (o, e) => Console.WriteLine("UnicodeSpeech " + e.Text);
 
             ConsoleKey key;
             do
@@ -155,18 +155,31 @@ namespace ScriptDotNet.Test
                     case ConsoleKey.L:
                         break;
                     case ConsoleKey.M:
+                        var menu = stealth.GetStealthService<IMenuService>();
+                        Console.WriteLine(menu.MenuPresent);
+                        if (menu.MenuPresent)
+                        {
+                            var s = menu.GetMenuItems("Tinkering");
+                            var ss = menu.LastMenuItems;
+                            var items = menu.GetMenuItemsEx("Tinkering");
+                        }
+                        Console.WriteLine("Done");
                         break;
                     case ConsoleKey.N:
                         break;
                     case ConsoleKey.O:
                         break;
                     case ConsoleKey.P:
+                        var mover = stealth.GetStealthService<IMoveService>();
+                        var path = mover.GetPathArray(1800, 3100, true, 1);
                         break;
                     case ConsoleKey.Q:
                         break;
                     case ConsoleKey.R:
                         break;
                     case ConsoleKey.S:
+                        var tileService = stealth.GetStealthService<ITileService>();
+                        var tiles = tileService.GetLandTilesArray(1842, 3106, 1844, 3108,0,1);
                         break;
                     case ConsoleKey.T:
                         break;

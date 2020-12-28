@@ -1,10 +1,18 @@
-﻿using System;
+﻿// -----------------------------------------------------------------------
+// <copyright file="IConnectionService.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using System;
 
 namespace ScriptDotNet.Services
 {
     public interface IConnectionService
     {
         bool ARStatus { get; set; }
+
         bool Connected { get; }
 
         /// <summary>
@@ -20,19 +28,29 @@ namespace ScriptDotNet.Services
         /// In the event that such action did not occur - will return '30.12.1899'.
         /// </summary>
         DateTime DisconnectedTime { get; }
+
         bool PauseScriptOnDisconnectStatus { get; set; }
 
-
         string GameServerIPString { get; }
+
         string ProxyIP { get; }
+
         ushort ProxyPort { get; }
+
         bool UseProxy { get; }
 
-        int ChangeProfile(string Name);
+        int ChangeProfile(string name);
+
+        int ChangeProfile(string name, string shardName, string charName);
+
         bool CheckLag(int timeoutMS);
+
         void CheckLagBegin();
+
         void CheckLagEnd();
+
         void Connect();
+
         void Disconnect();
     }
 }

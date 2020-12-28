@@ -1,8 +1,16 @@
-﻿namespace ScriptDotNet
+﻿// -----------------------------------------------------------------------
+// <copyright file="Spells.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace ScriptDotNet
 {
     public enum Spell : uint
     {
-        none = 0,
+        None = 0,
+
         // Magery Spells
         Clumsy = 1,
         CreateFood = 2,
@@ -69,6 +77,7 @@
         SummonEarthElemental = 62,
         SummonFireElemental = 63,
         SummonWaterElemental = 64,
+
         // Necromancy
         AnimateDead = 101,
         BloodOath = 102,
@@ -87,6 +96,7 @@
         Wither = 115,
         WraithForm = 116,
         Exorcism = 117,
+
         // Chivalry
         CleanseByFire = 201,
         CloseWounds = 202,
@@ -98,6 +108,7 @@
         NobleSacrifice = 208,
         RemoveCurse = 209,
         SacredJourney = 210,
+
         // Bushido
         HonorableExecution = 401,
         Confidence = 402,
@@ -105,6 +116,7 @@
         CounterAttack = 404,
         LightningStrike = 405,
         MomentumStrike = 406,
+
         // Ninjitsu
         FocusAttack = 501,
         DeathStrike = 502,
@@ -114,6 +126,7 @@
         Backstab = 506,
         Shadowjump = 507,
         MirrorImage = 508,
+
         // Spellweaving
         ArcaneCircle = 601,
         GiftOfRenewal = 602,
@@ -131,7 +144,8 @@
         WordOfDeath = 614,
         GiftOfLife = 615,
         ArcaneEmpowerment = 616,
-        // Mysticism
+
+        // Mysticism spells
         NetherBolt = 678,
         HealingStone = 679,
         PureMagic = 680,
@@ -148,12 +162,90 @@
         HailStorm = 691,
         NetherCyclone = 692,
         RisingColossus = 693,
-        // Bard Mastery
+
+        // Provocation
         Inspire = 701,
         Invigorate = 702,
+
+        // Peacemaking
         Resilience = 703,
         Perseverance = 704,
+
+        // Discordance
         Tribulation = 705,
-        Despair = 706
-    };
+        Despair = 706,
+
+        // Magery
+        DeathRay = 707,
+        EtherealBurst = 708,
+
+        // Mysticism
+        NetherBlast = 709,
+        MysticWeapon = 710,
+
+        // Necromancy
+        CommandUndead = 711,
+        Conduit = 712,
+
+        // Spellweaving
+        ManaShield = 713,
+        SummonReaper = 714,
+
+        // Bushido
+        AnticipateHit = 716,
+        Warcry = 717,
+
+        // Chivalry
+        Rejuvenate = 719,
+        HolyFist = 720,
+
+        // Ninjitsu
+        Shadow = 721,
+        WhiteTigerForm = 722,
+
+        // Archery
+        FlamingShot = 723,
+        PlayingTheOdds = 724,
+
+        // Fencing
+        Thrust = 725,
+        Pierce = 726,
+
+        // Mace Fighting
+        Stagger = 727,
+        Toughness = 728,
+
+        // Swordsmanship
+        Onslaught = 729,
+        FocusedEye = 730,
+
+        // Throwing
+        ElementalFury = 731,
+        CalledShot = 732,
+
+        // Parrying
+        ShieldBash = 734,
+        Bodyguard = 735,
+        HeightenSenses = 736,
+
+        // Poisoning
+        Tolerance = 737,
+        InjectedStrike = 738,
+        Potency = 739,
+
+        // Wrestling
+        Rampage = 740,
+        FistsOfFury = 741,
+        Knockout = 742,
+
+        // Animal Taming
+        Whispering = 743,
+        CombatTraining = 744,
+        Boarding = 745,
+
+        // Shared Passives
+        EnchantedSummoning = 715,
+        Intuition = 718,
+        WarriorsGifts = 733,
+    }
 }

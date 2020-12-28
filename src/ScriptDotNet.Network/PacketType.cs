@@ -1,13 +1,22 @@
-﻿namespace ScriptDotNet.Network
+﻿// -----------------------------------------------------------------------
+// <copyright file="PacketType.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace ScriptDotNet.Network
 {
     public enum PacketType : ushort
     {
         SCZero = 0,
         SCReturnValue = 1,
+
         SCScriptDLLTerminate = 2,
         SCExecEventProc = 3,
         SCPauseResumeScript = 4,
-        SCLangType = 5,
+
+        SCLangVersion = 5,
 
         SCClearEventProc = 7,
         SCGetProfileName = 8,
@@ -107,9 +116,9 @@
         SCSkillValue = 93,
         SCReqVirtuesGump = 94,
         SCUseVirtue = 95,
-        SCCastSpell = 96,
-        //97 missing
-        SCIsActiveSpellAbility = 98,
+        SCCastSpell = 96, // 97 missing
+
+        SCIsActiveSpellAbility = 98, // Using own logic
         SCSetCatchBag = 99,
 
         SCUnsetCatchBag = 100,
@@ -188,6 +197,7 @@
         SCGetStam = 167,
         SCGetMaxStam = 168,
         SCGetNotoriety = 169,
+
         SCGetParent = 170,
         SCIsWarMode = 171,
         SCIsNPC = 172,
@@ -198,6 +208,7 @@
         SCIsMovable = 177,
         SCIsYellowHits = 178,
         SCIsPoisoned = 179,
+
         SCIsParalyzed = 180,
         SCIsFemale = 181,
         SCOpenDoor = 182,
@@ -208,6 +219,7 @@
         SCGetDropCheckCoord = 187,
         SCSetDropCheckCoord = 188,
         SCGetDropDelay = 189,
+
         SCSetDropDelay = 190,
         SCDragItem = 191,
         SCDropItem = 192,
@@ -218,6 +230,7 @@
         SCCheckTradeState = 197,
         SCGetTradeContainer = 198,
         SCGetTradeOpponent = 199,
+
         SCGetTradeCount = 200,
         SCGetTradeOpponentName = 201,
         SCTradeCheck = 202,
@@ -228,6 +241,7 @@
         SCMenuHookPresent = 207,
         SCMenuPresent = 208,
         SCCancelMenu = 209,
+
         SCCloseMenu = 210,
         SCWaitGumpInt = 211,
         SCWaitGumpTextEntry = 212,
@@ -238,6 +252,7 @@
         SCNumGumpTextEntry = 217,
         SCNumGumpRadiobutton = 218,
         SCNumGumpCheckBox = 219,
+
         SCGetGumpsCount = 220,
         SCCloseSimpleGump = 221,
         SCGetGumpSerial = 222,
@@ -248,6 +263,7 @@
         SCGetGumpShortLines = 227,
         SCGetGumpButtonsDescription = 228,
         SCGetGumpInfo = 229,
+
         SCAddGumpIgnoreByID = 230,
         SCAddGumpIgnoreBySerial = 231,
         SCClearGumpsIgnore = 232,
@@ -258,6 +274,7 @@
         SCSetDressSpeed = 237,
         SCSetDress = 238,
         SCGetDressSet = 239,
+
         SCAutoBuy = 240,
         SCGetShopList = 241,
         SCClearShopList = 242,
@@ -268,18 +285,21 @@
         SCSetAutoSellDelay = 247,
         SCAutoSell = 248,
         SCRequestStats = 249,
+
         SCHelpRequest = 250,
         SCQuestRequest = 251,
         SCRenameMobile = 252,
         SCMobileCanBeRenamed = 253,
         SCChangeStatLockState = 254,
         SCGetStaticArtBitmap = 255,
-        SCPrintScriptMethodsList = 256,
+        SCPrintScriptMethodsList = 256, // useless
         SCSetAlarm = 257,
-        SCHTTP_Get = 258,
-        SCHTTP_Post = 259,
-        SCHTTP_Body = 260,
-        SCHTTP_Header = 261,
+
+        // 258 - 261 useless
+        // SCHTTP_Get = 258,
+        // SCHTTP_Post = 259,
+        // SCHTTP_Body = 260,
+        // SCHTTP_Header = 261,
         SCInviteToParty = 262,
         SCRemoveFromParty = 263,
         SCPartyMessageTo = 264,
@@ -288,6 +308,7 @@
         SCPartyAcceptInvite = 267,
         SCPartyDeclineInvite = 268,
         SCPartyLeave = 269,
+
         SCPartyMembersList = 270,
         SCInParty = 271,
         SCICQ_GetConnectedStatus = 272,
@@ -298,6 +319,7 @@
         SCICQ_SendText = 277,
         SCGetTileFlags = 278,
         SCConvertFlagsToFlagSet = 279,
+
         SCGetLandTileData = 280,
         SCGetStaticTileData = 281,
         SCGetLayerCount = 282,
@@ -307,34 +329,39 @@
         SCGetStaticTilesArray = 286,
         SCGetLandTilesArray = 287,
         SCClientPrint = 289,
+
         SCClientPrintEx = 290,
         SCCloseClientUIWindow = 291,
         SCClientRequestObjectTarget = 292,
         SCClientRequestTileTarget = 293,
         SCClientTargetResponsePresent = 294,
         SCClientTargetResponse = 295,
-        SCWaitForClientTargetResponse = 296,
+
+        // 296 missing
         SCCheckLagBegin = 297,
         SCCheckLagEnd = 298,
         SCIsCheckLagEnd = 299,
+
         SCGetQuestArrow = 300,
         SCSetSilentMode = 301,
         SCGetSilentMode = 302,
-        SCFillNewWindow = 303,  
+        SCFillNewWindow = 303,
         SCAddToJournal = 304,
         SCGetStealthPath = 305,
         SCGetStealthProfilePath = 306,
         SCGetShardPath = 307,
         SCSendTextToUO = 308,
         SCSendTextToUOColor = 309,
+
         SCSetGlobal = 310,
         SCGetGlobal = 311,
         SCConsoleEntryReply = 312,
-        SCConsoleEntryUnicodeReply= 313,
+        SCConsoleEntryUnicodeReply = 313,
         SCSetRunUnmountTimer = 316,
         SCSetWalkMountTimer = 317,
         SCSetRunMountTimer = 318,
         SCSetWalkUnmountTimer = 319,
+
         SCGetRunMountTimer = 320,
         SCGetWalkMountTimer = 321,
         SCGetRunUnmountTimer = 322,
@@ -345,6 +372,7 @@
         SCMoveXY = 327,
         SCSetBadLocation = 328,
         SCSetGoodLocation = 329,
+
         SCClearBadLocationList = 330,
         SCSetBadObjects = 331,
         SCClearBadObjectList = 332,
@@ -353,42 +381,79 @@
         SCGetPathArray3D = 335,
         SCSetFindInNulPoint = 336,
         SCGetFindInNulPoint = 337,
-
         SCGetMenuItems = 338,
         SCGetLastMenuItems = 339,
+
         SCFindTypesArrayEx = 340,
         SCGameServerIPString = 341,
-
         SCCloseClientGump = 342,
         SCGetProfileShardName = 343,
         SCGetLastStepQUsedDoor = 344,
-
         SCGetContextMenuRec = 345,
         SCClearSystemJournal = 346,
         SCGetMultis = 347,
-
         SCClearInfoWindow = 348,
-        SCSetMoveOpenDoor = 349,
-        SCGetMoveOpenDoor = 350,
-        SCSetMoveThroughNPC = 351,
-        SCGetMoveThroughNPC = 352,
-        SCGetBuffBarInfo = 353,
-        //26.05.2016
-        SCConvertIntegerToFlags = 354, 
-        SCSkillCurrentValue = 355,
-        SCSkype_Connect = 356,
-        SCSkype_Disconnect = 357,
-        SCSkype_Connected = 358,
-        SCSkype_SendMessage = 359,
-        SCSkype_NickByID = 360,
-        SCSkype_IDByNick = 361,
+        SCGetBuffBarInfo = 349,
 
-        //06.03.2018
-        SCMessenger_GetConnected = 368,
-        SCMessenger_SetConnected = 369,
-        SCMessenger_GetToken = 370,
-        SCMessenger_SetToken = 371,
-        SCMessenger_GetName = 372,
-        SCMessenger_SendMessage = 373,
+        SCConvertIntegerToFlags = 350,
+        SCSkillCurrentValue = 351,
+        SCChangeProfileEx = 352,
+        SCMoverStop = 353,
+        SCSetARExtParams = 354,
+        SCGetClientVersionInt = 355,
+        SCUnequipItemsSetMacro = 356,
+        SCEquipItemsSetMacro = 357,
+        SCGetMenuItemsEx = 358, // -
+        SCUseItemOnMobile = 359, // -
+
+        SCBandageSelf = 360, // -
+        SCGlobalChatJoinChannel = 361, // -
+        SCGlobalChatLeaveChannel = 362, // -
+        SCGlobalChatSendMsg = 363, // -
+        SCGlobalChatActiveChannel = 364, // -
+        SCGlobalChatChannelsList = 365, // -
+        SCGetNextStepZ = 366, // -
+
+        // 367 missing
+        SCClientHide = 368, // -
+        SCGetSkillLockState = 369, // -
+
+        SCGetStatLockState = 372, // -
+
+        // Move vars
+        SCSetMoveOpenDoor = 400,
+        SCGetMoveOpenDoor = 401,
+        SCSetMoveThroughNPC = 402,
+        SCGetMoveThroughNPC = 403,
+        SCSetMoveThroughCorner = 404, // -
+        SCGetMoveThroughCorner = 405, // -
+        SCSetMoveHeuristicMult = 406, // -
+        SCGetMoveHeuristicMult = 407, // -
+        SCSetMoveCheckStamina = 408, // -
+        SCGetMoveCheckStamina = 409, // -
+        SCSetMoveTurnCost = 410, // -
+        SCGetMoveTurnCost = 411, // -
+        SCSetMoveBetweenTwoCorners = 412, // -
+        SCGetMoveBetweenTwoCorners = 413, // -
+
+        SCMessenger_GetConnected = 501,
+        SCMessenger_SetConnected = 502,
+        SCMessenger_GetToken = 503,
+        SCMessenger_SetToken = 504,
+        SCMessenger_GetName = 505,
+        SCMessenger_SendMessage = 506,
+
+        SCIRCConnect = 510, // -
+        SCIRCDisconnect = 511, // -
+        SCIRCConnected = 512, // -
+        SCIRCSay = 513, // -
+        SCIRCJoin = 514, // -
+        SCIRCRaw = 515, // -
+        SCIRCSetNickName = 516, // -
+
+        SCAddFigure = 550, // -
+        SCRemoveFigure = 551, // -
+        SCUpdateFigure = 552, // -
+        SCClearFigures = 553, // -
     }
 }

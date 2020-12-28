@@ -1,21 +1,30 @@
-﻿using System;
+﻿// -----------------------------------------------------------------------
+// <copyright file="ClilocSpeechEventArgs.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using System;
 
 namespace ScriptDotNet
 {
     public class ClilocSpeechEventArgs : EventArgs
     {
-        public ClilocSpeechEventArgs(int senderId, string senderName, int clilocId, string text)
+        public ClilocSpeechEventArgs(uint senderId, string senderName, uint clilocId, string text)
         {
             SenderId = senderId;
             SenderName = senderName;
             ClilocId = clilocId;
             Text = text;
         }
-        public int SenderId { get; private set; }
+
+        public uint SenderId { get; private set; }
+
         public string SenderName { get; private set; }
-        public int ClilocId { get; private set; }
+
+        public uint ClilocId { get; private set; }
+
         public string Text { get; private set; }
     }
-
-
 }

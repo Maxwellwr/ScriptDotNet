@@ -1,25 +1,32 @@
-﻿using ScriptDotNet.Network;
+﻿// -----------------------------------------------------------------------
+// <copyright file="SystemService.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using ScriptDotNet.Network;
+
 using System;
 
 namespace ScriptDotNet.Services
 {
-    public class SystemService: BaseService,ISystemService
+    public class SystemService : BaseService, ISystemService
     {
         public SystemService(IStealthClient client)
-            :base(client)
+            : base(client)
         {
-
         }
 
         public bool SilentMode
         {
-            get { return _client.SendPacket<bool>(PacketType.SCGetSilentMode); }
-            set { _client.SendPacket(PacketType.SCSetSilentMode, value); }
+            get { return Client.SendPacket<bool>(PacketType.SCGetSilentMode); }
+            set { Client.SendPacket(PacketType.SCSetSilentMode, value); }
         }
 
         public void Alarm()
         {
-            _client.SendPacket(PacketType.SCSetAlarm);
+            Client.SendPacket(PacketType.SCSetAlarm);
         }
 
         public void Beep()
@@ -29,46 +36,40 @@ namespace ScriptDotNet.Services
 
         public void ConsoleEntryReply(string text)
         {
-            _client.SendPacket(PacketType.SCConsoleEntryReply, text);
+            Client.SendPacket(PacketType.SCConsoleEntryReply, text);
         }
 
         public void ConsoleEntryUnicodeReply(string text)
         {
-            _client.SendPacket(PacketType.SCConsoleEntryUnicodeReply, text);
+            Client.SendPacket(PacketType.SCConsoleEntryUnicodeReply, text);
         }
 
         public void HelpRequest()
         {
-            _client.SendPacket(PacketType.SCHelpRequest);
+            Client.SendPacket(PacketType.SCHelpRequest);
         }
-        
+
         public void QuestRequest()
         {
-            _client.SendPacket(PacketType.SCQuestRequest);
+            Client.SendPacket(PacketType.SCQuestRequest);
         }
 
         public void RequestStats(uint objId)
         {
-            _client.SendPacket(PacketType.SCRequestStats, objId);
+            Client.SendPacket(PacketType.SCRequestStats, objId);
         }
 
         public void SetCmdPrefix(char prefix)
         {
             throw new NotImplementedException();
         }
-        
-        public int SendMessageToWindow(IntPtr windowHandle, uint CharID, byte[] ByteArr)
-        {
-            throw new NotImplementedException();
-            //Win32.SendMessage(windowHandle, )
-        }
 
-        public void ShowMessage(string Msg)
+        public void ShowMessage(string msg)
         {
             throw new NotImplementedException();
         }
 
-        public ushort Sign(int AValue)
+        public ushort Sign(int aValue)
         {
             throw new NotImplementedException();
         }

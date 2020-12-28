@@ -1,9 +1,16 @@
-﻿namespace ScriptDotNet.Services
+﻿// -----------------------------------------------------------------------
+// <copyright file="IAttackService.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace ScriptDotNet.Services
 {
     public interface IAttackService
     {
         /// <summary>
-        /// Last attacked object
+        /// Last attacked object.
         /// </summary>
         uint LastAttack { get; }
 
@@ -31,10 +38,10 @@
         /// <example>
         /// IAttackService _attack;
         /// uint _enemy;
-        /// if (_attack.WarTargetID <> _enemy) then
+        /// if (_attack.WarTargetID. <> _enemy) then
         ///     _attack.Attack(_enemy);
         /// </example>
         /// <param name="attackedId">Object for attack</param>
-        void Attack(uint attackedId); 
+        void Attack(uint attackedId);
     }
 }

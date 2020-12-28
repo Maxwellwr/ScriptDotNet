@@ -1,4 +1,11 @@
-﻿namespace ScriptDotNet
+﻿// -----------------------------------------------------------------------
+// <copyright file="MessangerIncomingTextEventArgs.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace ScriptDotNet
 {
     public class MessangerIncomingTextEventArgs : MessangerTextEventArgs
     {
@@ -8,9 +15,9 @@
             MessangerType = messangerType;
             EventCode = eventCode;
         }
+
         public MessangerType MessangerType { get; set; }
+
         public MessangerEventType EventCode { get; set; }
     }
-
-
 }

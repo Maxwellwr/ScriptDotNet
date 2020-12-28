@@ -1,7 +1,14 @@
-﻿namespace ScriptDotNet
+﻿// -----------------------------------------------------------------------
+// <copyright file="EventTypes.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace ScriptDotNet
 {
     /// <summary>
-    /// Event Enumeration
+    /// Event Enumeration.
     /// </summary>
     public enum EventTypes : byte
     {
@@ -43,7 +50,6 @@
         IRCIncomingText = 35,
         MessengerEvent = 36,
         SetGlobalVar = 37,
-        UpdateObjStats = 38
+        UpdateObjStats = 38,
     }
-
 }

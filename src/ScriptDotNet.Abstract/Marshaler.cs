@@ -1,4 +1,11 @@
-﻿using System;
+﻿// -----------------------------------------------------------------------
+// <copyright file="Marshaler.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -8,10 +15,10 @@ namespace ScriptDotNet
     public static class Marshaler
     {
         /// <summary>
-        /// Перевести объект в массив байт
+        /// Перевести объект в массив байт.
         /// </summary>
-        /// <param name="obj">Объект для перевода</param>
-        /// <returns>Массив байт</returns>
+        /// <param name="obj">Объект для перевода.</param>
+        /// <returns>Массив байт.</returns>
         public static byte[] MarshalToBytes(this object obj)
         {
             int size = Marshal.SizeOf(obj);
@@ -24,11 +31,10 @@ namespace ScriptDotNet
         }
 
         /// <summary>
-        /// Перевести массив байт в объект
+        /// Перевести массив байт в объект.
         /// </summary>
-        /// <param name="buffer">Массив байт</param>
-        /// <param name="type">Тип объекта</param>
-        /// <returns>Результирующий объект</returns>
+        /// <param name="buffer">Массив байт.</param>
+        /// <returns>Результирующий объект.</returns>
         public static T MarshalToObject<T>(this byte[] buffer)
         {
             return (T)MarshalToObject(buffer, typeof(T));
@@ -41,7 +47,7 @@ namespace ScriptDotNet
             if (type.GetInterfaces().Any(intf => intf == typeof(IDeserialized)))
             {
                 target = Activator.CreateInstance(type);
-                using(MemoryStream str = new MemoryStream(buffer))
+                using (MemoryStream str = new MemoryStream(buffer))
                 using (BinaryReader br = new BinaryReader(str))
                 {
                     (target as IDeserialized).Deserialize(br);
@@ -55,6 +61,7 @@ namespace ScriptDotNet
                 target = Marshal.PtrToStructure(ptr, type);
                 gcHandle.Free();
             }
+
             return target;
         }
 
@@ -70,7 +77,7 @@ namespace ScriptDotNet
             if (type.GetInterfaces().Any(intf => intf == typeof(IDeserialized)))
             {
                 target = Activator.CreateInstance(type);
-                (target as IDeserialized).Deserialize(reader);                
+                (target as IDeserialized).Deserialize(reader);
             }
             else
             {
@@ -78,6 +85,7 @@ namespace ScriptDotNet
                 var buffer = reader.ReadBytes(size);
                 target = buffer.MarshalToObject(type);
             }
+
             return target;
         }
 

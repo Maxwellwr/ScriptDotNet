@@ -1,6 +1,13 @@
-﻿using ScriptDotNet.Network;
+﻿// -----------------------------------------------------------------------
+// <copyright file="MoveItemService.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using ScriptDotNet.Network;
+
 using System;
-using System.Linq;
 using System.Reflection;
 using System.Threading;
 
@@ -14,8 +21,8 @@ namespace ScriptDotNet.Services
 
         public MoveItemService(
             IStealthClient client,
-            ICharStatsService charStatsService, 
-            IGameObjectService gameObjectService, 
+            ICharStatsService charStatsService,
+            IGameObjectService gameObjectService,
             IObjectSearchService objectSearchService)
             : base(client)
         {
@@ -24,31 +31,22 @@ namespace ScriptDotNet.Services
             _objectSearchService = objectSearchService;
         }
 
-        private uint _dropDelay;
         public uint DropDelay
         {
-            get { return _dropDelay; }
-            set
-            {
-                if (value < 50)
-                    _dropDelay = 50;
-                else if (value > 10000)
-                    _dropDelay = 10000;
-                else
-                    _dropDelay = value;
-            }
+            get { return Client.SendPacket<uint>(PacketType.SCGetDropDelay); }
+            set { Client.SendPacket(PacketType.SCSetDropDelay, value); }
         }
 
         public uint PickedUpItem
         {
-            get { return _client.SendPacket<uint>(PacketType.SCGetPickupedItem); }
-            set { _client.SendPacket(PacketType.SCSetPickupedItem, value); }
+            get { return Client.SendPacket<uint>(PacketType.SCGetPickupedItem); }
+            set { Client.SendPacket(PacketType.SCSetPickupedItem, value); }
         }
 
         public bool DropCheckCoord
         {
-            get { return _client.SendPacket<bool>(PacketType.SCGetDropCheckCoord); }
-            set { _client.SendPacket(PacketType.SCSetDropCheckCoord, value); }
+            get { return Client.SendPacket<bool>(PacketType.SCGetDropCheckCoord); }
+            set { Client.SendPacket(PacketType.SCSetDropCheckCoord, value); }
         }
 
         public bool DragItem(uint itemId, int count = 0)
@@ -56,20 +54,28 @@ namespace ScriptDotNet.Services
             int rescount = count;
 
             if (_charStatsService.Dead)
+            {
                 throw new InvalidOperationException("Error: " + MethodBase.GetCurrentMethod().ToString() + " [Character is dead]");
+            }
 
             if (PickedUpItem != 0 && _gameObjectService.IsObjectExists(PickedUpItem))
+            {
                 throw new InvalidOperationException("Error: " + MethodBase.GetCurrentMethod().ToString() + " [Must drop current item before dragging a new one]");
+            }
 
             int quantity = _gameObjectService.GetQuantity(itemId);
 
             if (!_gameObjectService.IsObjectExists(itemId))
+            {
                 throw new InvalidOperationException("Error: " + MethodBase.GetCurrentMethod().ToString() + " [Object not found]");
+            }
 
             if (count <= 0 || count > quantity)
+            {
                 rescount = quantity;
+            }
 
-            _client.SendPacket(PacketType.SCDragItem, itemId, rescount);
+            Client.SendPacket(PacketType.SCDragItem, itemId, rescount);
 
             return PickedUpItem == itemId;
         }
@@ -86,7 +92,7 @@ namespace ScriptDotNet.Services
 
         public bool DropItem(uint moveIntoId, int x, int y, int z)
         {
-            _client.SendPacket(PacketType.SCDropItem, moveIntoId, x, y, z);
+            Client.SendPacket(PacketType.SCDropItem, moveIntoId, x, y, z);
             return true;
         }
 
@@ -103,7 +109,10 @@ namespace ScriptDotNet.Services
         public bool MoveItem(uint itemId, int count, uint moveIntoId, int x, int y, int z)
         {
             if (DragItem(itemId, count))
+            {
                 return DropItem(moveIntoId, x, y, z);
+            }
+
             return false;
         }
 
@@ -120,17 +129,24 @@ namespace ScriptDotNet.Services
             _objectSearchService.FindTypeEx(itemsType, itemsColor, container, false);
 
             if (_objectSearchService.FindedList.Count == 0)
+            {
                 return false;
-
+            }
 
             if (DropDelay > delayMS)
+            {
                 delayMS = (int)DropDelay;
+            }
 
             beforeMoveCount = _objectSearchService.FindedList.Count;
             if (maxItems <= 0 || maxItems > beforeMoveCount)
+            {
                 moveItemsCount = beforeMoveCount;
+            }
             else
+            {
                 moveItemsCount = maxItems;
+            }
 
             for (int i = 0; i < moveItemsCount; i++)
             {
@@ -145,12 +161,12 @@ namespace ScriptDotNet.Services
 
         public void SetCatchBag(uint objectId)
         {
-            _client.SendPacket(PacketType.SCSetCatchBag, objectId);
+            Client.SendPacket(PacketType.SCSetCatchBag, objectId);
         }
 
         public void UnsetCatchBag()
         {
-            _client.SendPacket(PacketType.SCUnsetCatchBag);
+            Client.SendPacket(PacketType.SCUnsetCatchBag);
         }
     }
 }

@@ -1,10 +1,17 @@
-﻿using System.Collections.Generic;
+﻿// -----------------------------------------------------------------------
+// <copyright file="FoundTile.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace ScriptDotNet
 {
     /// <summary>
-    /// Found Tile
+    /// Found Tile.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct FoundTile
@@ -21,6 +28,7 @@ namespace ScriptDotNet
                 var ft = (FoundTile)obj;
                 return ft.X == X && ft.Y == Y && ft.Z == Z;
             }
+
             return base.Equals(obj);
         }
 

@@ -1,8 +1,17 @@
-﻿using ScriptDotNet.Network;
+﻿// -----------------------------------------------------------------------
+// <copyright file="EventSystemService.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using ScriptDotNet.Network;
+
 using System;
 
 namespace ScriptDotNet.Services
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "OK")]
     public class EventSystemService : BaseService, IEventSystemService
     {
         public EventSystemService(IStealthClient client)
@@ -11,75 +20,44 @@ namespace ScriptDotNet.Services
             client.ServerEventRecieve += cln_ServerEventRecieve;
         }
 
-        private event EventHandler<ItemEventArgs> _itemInfo;
-        private event EventHandler<ItemEventArgs> _itemDeleted;
-        private event EventHandler<SpeechEventArgs> _speech;
-        private event EventHandler<ObjectEventArgs> _drawGamePlayer;
-        private event EventHandler<MoveRejectionEventArgs> _moveRejection;
-        private event EventHandler<DrawContainerEventArgs> _drawContainer;
-        private event EventHandler<AddItemToContainerEventArgs> _addItemToContainer;
-        private event EventHandler<AddMultipleItemsInContainerEventArgs> _addMultipleItemsInContainer;
-        private event EventHandler<RejectMoveItemEventArgs> _rejectMoveItem;
-        private event EventHandler<ObjectEventArgs> _updateChar;
-        private event EventHandler<ObjectEventArgs> _drawObject;
-        private event EventHandler<MenuEventArgs> _menu;
-        private event EventHandler<MapMessageEventArgs> _mapMessage;
-        private event EventHandler<AllowRefuseAttackEventArgs> _allowRefuseAttack;
-        private event EventHandler<ClilocSpeechEventArgs> _clilocSpeech;
-        private event EventHandler<ClilocSpeechAffixEventArgs> _clilocSpeechAffix;
-        private event EventHandler<UnicodeSpeechEventArgs> _unicodeSpeech;
-        private event EventHandler<Buff_DebuffSystemEventArgs> _buffDebuffSystem;
-        private event EventHandler<EventArgs> _clientSendResync;
-        private event EventHandler<CharAnimationEventArgs> _charAnimation;
-        private event EventHandler<EventArgs> _ICQDisconnect;
-        private event EventHandler<EventArgs> _ICQConnect;
-        private event EventHandler<ICQIncomingTextEventArgs> _ICQIncomingText;
-        private event EventHandler<ICQErrorEventArgs> _ICQError;
-        private event EventHandler<IncomingGumpEventArgs> _incomingGump;
-        private event EventHandler<EventArgs> _timer1;
-        private event EventHandler<EventArgs> _timer2;
-        private event EventHandler<WindowsMessageEventArgs> _windowsMessage;
-        private event EventHandler<SoundEventArgs> _sound;
-        private event EventHandler<DeathEventArgs> _death;
-        private event EventHandler<QuestArrowEventArgs> _questArrow;
-        private event EventHandler<PartyInviteEventArgs> _partyInvite;
-        private event EventHandler<MapPinEventArgs> _mapPin;
-        private event EventHandler<GumpTextEntryEventArgs> _gumpTextEntry;
-        private event EventHandler<GraphicalEffectEventArgs> _graphicalEffect;
-        private event EventHandler<IRCIncomingTextEventArgs> _IRCIncomingText;
-        private event EventHandler<MessangerIncomingTextEventArgs> _messangerIncomingText;
-        private event EventHandler<SetGlobalVarEventArgs> _setGlobalVar;
-        private event EventHandler<UpdateObjectStatsEventArgs> _updateObjectStats;
-
         public event EventHandler<ItemEventArgs> ItemInfo
         {
             add
             {
                 var handler = _itemInfo;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.ItemInfo);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.ItemInfo);
+                }
+
                 _itemInfo += value;
             }
+
             remove
             {
                 _itemInfo -= value;
 
                 var handler = _itemInfo;
                 if (handler == null)
-                {                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.ItemInfo);
+                {
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.ItemInfo);
                 }
             }
         }
+
         public event EventHandler<ItemEventArgs> ItemDeleted
         {
             add
             {
                 var handler = _itemDeleted;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.ItemDeleted);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.ItemDeleted);
+                }
+
                 _itemDeleted += value;
             }
+
             remove
             {
                 _itemDeleted -= value;
@@ -87,20 +65,24 @@ namespace ScriptDotNet.Services
                 var handler = _itemDeleted;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.ItemDeleted);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.ItemDeleted);
                 }
             }
         }
+
         public event EventHandler<SpeechEventArgs> Speech
         {
             add
             {
                 var handler = _speech;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.Speech);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.Speech);
+                }
+
                 _speech += value;
             }
+
             remove
             {
                 _speech -= value;
@@ -108,8 +90,7 @@ namespace ScriptDotNet.Services
                 var handler = _speech;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.Speech);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.Speech);
                 }
             }
         }
@@ -121,9 +102,13 @@ namespace ScriptDotNet.Services
             {
                 var handler = _drawGamePlayer;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.DrawGamePlayer);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.DrawGamePlayer);
+                }
+
                 _drawGamePlayer += value;
             }
+
             remove
             {
                 _drawGamePlayer -= value;
@@ -131,20 +116,24 @@ namespace ScriptDotNet.Services
                 var handler = _drawGamePlayer;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.DrawGamePlayer);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.DrawGamePlayer);
                 }
             }
         }
+
         public event EventHandler<MoveRejectionEventArgs> MoveRejection
         {
             add
             {
                 var handler = _moveRejection;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.MoveRejection);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.MoveRejection);
+                }
+
                 _moveRejection += value;
             }
+
             remove
             {
                 _moveRejection -= value;
@@ -152,20 +141,24 @@ namespace ScriptDotNet.Services
                 var handler = _moveRejection;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.MoveRejection);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.MoveRejection);
                 }
             }
         }
+
         public event EventHandler<DrawContainerEventArgs> DrawContainer
         {
             add
             {
                 var handler = _drawContainer;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.DrawContainer);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.DrawContainer);
+                }
+
                 _drawContainer += value;
             }
+
             remove
             {
                 _drawContainer -= value;
@@ -173,20 +166,24 @@ namespace ScriptDotNet.Services
                 var handler = _drawContainer;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.DrawContainer);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.DrawContainer);
                 }
             }
         }
+
         public event EventHandler<AddItemToContainerEventArgs> AddItemToContainer
         {
             add
             {
                 var handler = _addItemToContainer;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.AddItemToContainer);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.AddItemToContainer);
+                }
+
                 _addItemToContainer += value;
             }
+
             remove
             {
                 _addItemToContainer -= value;
@@ -194,20 +191,24 @@ namespace ScriptDotNet.Services
                 var handler = _addItemToContainer;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.AddItemToContainer);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.AddItemToContainer);
                 }
             }
         }
+
         public event EventHandler<AddMultipleItemsInContainerEventArgs> AddMultipleItemsInContainer
         {
             add
             {
                 var handler = _addMultipleItemsInContainer;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.AddMultipleItemsInCont);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.AddMultipleItemsInCont);
+                }
+
                 _addMultipleItemsInContainer += value;
             }
+
             remove
             {
                 _addMultipleItemsInContainer -= value;
@@ -215,20 +216,24 @@ namespace ScriptDotNet.Services
                 var handler = _addMultipleItemsInContainer;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.AddMultipleItemsInCont);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.AddMultipleItemsInCont);
                 }
             }
         }
+
         public event EventHandler<RejectMoveItemEventArgs> RejectMoveItem
         {
             add
             {
                 var handler = _rejectMoveItem;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.RejectMoveItem);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.RejectMoveItem);
+                }
+
                 _rejectMoveItem += value;
             }
+
             remove
             {
                 _rejectMoveItem -= value;
@@ -236,8 +241,7 @@ namespace ScriptDotNet.Services
                 var handler = _rejectMoveItem;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.RejectMoveItem);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.RejectMoveItem);
                 }
             }
         }
@@ -249,9 +253,13 @@ namespace ScriptDotNet.Services
             {
                 var handler = _updateChar;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.UpdateChar);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.UpdateChar);
+                }
+
                 _updateChar += value;
             }
+
             remove
             {
                 _updateChar -= value;
@@ -259,20 +267,24 @@ namespace ScriptDotNet.Services
                 var handler = _updateChar;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.UpdateChar);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.UpdateChar);
                 }
             }
         }
+
         public event EventHandler<ObjectEventArgs> DrawObject
         {
             add
             {
                 var handler = _drawObject;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.DrawObject);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.DrawObject);
+                }
+
                 _drawObject += value;
             }
+
             remove
             {
                 _drawObject -= value;
@@ -280,20 +292,24 @@ namespace ScriptDotNet.Services
                 var handler = _drawObject;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.DrawObject);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.DrawObject);
                 }
             }
         }
+
         public event EventHandler<MenuEventArgs> Menu
         {
             add
             {
                 var handler = _menu;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.Menu);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.Menu);
+                }
+
                 _menu += value;
             }
+
             remove
             {
                 _menu -= value;
@@ -301,20 +317,24 @@ namespace ScriptDotNet.Services
                 var handler = _menu;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.Menu);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.Menu);
                 }
             }
         }
+
         public event EventHandler<MapMessageEventArgs> MapMessage
         {
             add
             {
                 var handler = _mapMessage;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.MapMessage);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.MapMessage);
+                }
+
                 _mapMessage += value;
             }
+
             remove
             {
                 _mapMessage -= value;
@@ -322,20 +342,24 @@ namespace ScriptDotNet.Services
                 var handler = _mapMessage;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.MapMessage);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.MapMessage);
                 }
             }
         }
+
         public event EventHandler<AllowRefuseAttackEventArgs> AllowRefuseAttack
         {
             add
             {
                 var handler = _allowRefuseAttack;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.Allow_RefuseAttack);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.Allow_RefuseAttack);
+                }
+
                 _allowRefuseAttack += value;
             }
+
             remove
             {
                 _allowRefuseAttack -= value;
@@ -343,20 +367,24 @@ namespace ScriptDotNet.Services
                 var handler = _allowRefuseAttack;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.Allow_RefuseAttack);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.Allow_RefuseAttack);
                 }
             }
         }
+
         public event EventHandler<ClilocSpeechEventArgs> ClilocSpeech
         {
             add
             {
                 var handler = _clilocSpeech;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.ClilocSpeech);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.ClilocSpeech);
+                }
+
                 _clilocSpeech += value;
             }
+
             remove
             {
                 _clilocSpeech -= value;
@@ -364,8 +392,7 @@ namespace ScriptDotNet.Services
                 var handler = _clilocSpeech;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.ClilocSpeech);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.ClilocSpeech);
                 }
             }
         }
@@ -377,9 +404,13 @@ namespace ScriptDotNet.Services
             {
                 var handler = _clilocSpeechAffix;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.ClilocSpeechAffix);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.ClilocSpeechAffix);
+                }
+
                 _clilocSpeechAffix += value;
             }
+
             remove
             {
                 _clilocSpeechAffix -= value;
@@ -387,8 +418,7 @@ namespace ScriptDotNet.Services
                 var handler = _clilocSpeechAffix;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.ClilocSpeechAffix);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.ClilocSpeechAffix);
                 }
             }
         }
@@ -400,9 +430,13 @@ namespace ScriptDotNet.Services
             {
                 var handler = _unicodeSpeech;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.UnicodeSpeech);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.UnicodeSpeech);
+                }
+
                 _unicodeSpeech += value;
             }
+
             remove
             {
                 _unicodeSpeech -= value;
@@ -410,20 +444,24 @@ namespace ScriptDotNet.Services
                 var handler = _unicodeSpeech;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.UnicodeSpeech);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.UnicodeSpeech);
                 }
             }
         }
+
         public event EventHandler<Buff_DebuffSystemEventArgs> Buff_DebuffSystem
         {
             add
             {
                 var handler = _buffDebuffSystem;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.Buff_DebuffSystem);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.Buff_DebuffSystem);
+                }
+
                 _buffDebuffSystem += value;
             }
+
             remove
             {
                 _buffDebuffSystem -= value;
@@ -431,20 +469,24 @@ namespace ScriptDotNet.Services
                 var handler = _buffDebuffSystem;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.Buff_DebuffSystem);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.Buff_DebuffSystem);
                 }
             }
         }
+
         public event EventHandler<EventArgs> ClientSendResync
         {
             add
             {
                 var handler = _clientSendResync;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.ClientSendResync);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.ClientSendResync);
+                }
+
                 _clientSendResync += value;
             }
+
             remove
             {
                 _clientSendResync -= value;
@@ -452,20 +494,24 @@ namespace ScriptDotNet.Services
                 var handler = _clientSendResync;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.ClientSendResync);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.ClientSendResync);
                 }
             }
         }
+
         public event EventHandler<CharAnimationEventArgs> CharAnimation
         {
             add
             {
                 var handler = _charAnimation;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.CharAnimation);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.CharAnimation);
+                }
+
                 _charAnimation += value;
             }
+
             remove
             {
                 _charAnimation -= value;
@@ -473,20 +519,24 @@ namespace ScriptDotNet.Services
                 var handler = _charAnimation;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.CharAnimation);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.CharAnimation);
                 }
             }
         }
+
         public event EventHandler<EventArgs> ICQDisconnect
         {
             add
             {
                 var handler = _ICQDisconnect;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.ICQDisconnect);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.ICQDisconnect);
+                }
+
                 _ICQDisconnect += value;
             }
+
             remove
             {
                 _ICQDisconnect -= value;
@@ -494,20 +544,24 @@ namespace ScriptDotNet.Services
                 var handler = _ICQDisconnect;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.ICQDisconnect);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.ICQDisconnect);
                 }
             }
         }
+
         public event EventHandler<EventArgs> ICQConnect
         {
             add
             {
                 var handler = _ICQConnect;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.ICQConnect);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.ICQConnect);
+                }
+
                 _ICQConnect += value;
             }
+
             remove
             {
                 _ICQConnect -= value;
@@ -515,20 +569,24 @@ namespace ScriptDotNet.Services
                 var handler = _ICQConnect;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.ICQConnect);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.ICQConnect);
                 }
             }
         }
+
         public event EventHandler<ICQIncomingTextEventArgs> ICQIncomingText
         {
             add
             {
                 var handler = _ICQIncomingText;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.ICQIncomingText);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.ICQIncomingText);
+                }
+
                 _ICQIncomingText += value;
             }
+
             remove
             {
                 _ICQIncomingText -= value;
@@ -536,20 +594,24 @@ namespace ScriptDotNet.Services
                 var handler = _ICQIncomingText;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.ICQIncomingText);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.ICQIncomingText);
                 }
             }
         }
+
         public event EventHandler<ICQErrorEventArgs> ICQError
         {
             add
             {
                 var handler = _ICQError;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.ICQError);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.ICQError);
+                }
+
                 _ICQError += value;
             }
+
             remove
             {
                 _ICQError -= value;
@@ -557,20 +619,24 @@ namespace ScriptDotNet.Services
                 var handler = _ICQError;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.ICQError);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.ICQError);
                 }
             }
         }
+
         public event EventHandler<IncomingGumpEventArgs> IncomingGump
         {
             add
             {
                 var handler = _incomingGump;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.IncomingGump);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.IncomingGump);
+                }
+
                 _incomingGump += value;
             }
+
             remove
             {
                 _incomingGump -= value;
@@ -578,20 +644,24 @@ namespace ScriptDotNet.Services
                 var handler = _incomingGump;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.IncomingGump);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.IncomingGump);
                 }
             }
         }
+
         public event EventHandler<EventArgs> Timer1
         {
             add
             {
                 var handler = _timer1;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.Timer1);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.Timer1);
+                }
+
                 _timer1 += value;
             }
+
             remove
             {
                 _timer1 -= value;
@@ -599,20 +669,24 @@ namespace ScriptDotNet.Services
                 var handler = _timer1;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.Timer1);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.Timer1);
                 }
             }
         }
+
         public event EventHandler<EventArgs> Timer2
         {
             add
             {
                 var handler = _timer2;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.Timer2);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.Timer2);
+                }
+
                 _timer2 += value;
             }
+
             remove
             {
                 _timer2 -= value;
@@ -620,20 +694,24 @@ namespace ScriptDotNet.Services
                 var handler = _timer2;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.Timer2);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.Timer2);
                 }
             }
         }
+
         public event EventHandler<WindowsMessageEventArgs> WindowsMessage
         {
             add
             {
                 var handler = _windowsMessage;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.WindowsMessage);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.WindowsMessage);
+                }
+
                 _windowsMessage += value;
             }
+
             remove
             {
                 _windowsMessage -= value;
@@ -641,20 +719,24 @@ namespace ScriptDotNet.Services
                 var handler = _windowsMessage;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.WindowsMessage);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.WindowsMessage);
                 }
             }
         }
+
         public event EventHandler<SoundEventArgs> Sound
         {
             add
             {
                 var handler = _sound;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.Sound);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.Sound);
+                }
+
                 _sound += value;
             }
+
             remove
             {
                 _sound -= value;
@@ -662,20 +744,24 @@ namespace ScriptDotNet.Services
                 var handler = _sound;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.Sound);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.Sound);
                 }
             }
         }
+
         public event EventHandler<DeathEventArgs> Death
         {
             add
             {
                 var handler = _death;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.Death);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.Death);
+                }
+
                 _death += value;
             }
+
             remove
             {
                 _death -= value;
@@ -683,20 +769,24 @@ namespace ScriptDotNet.Services
                 var handler = _death;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.Death);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.Death);
                 }
             }
         }
+
         public event EventHandler<QuestArrowEventArgs> QuestArrow
         {
             add
             {
                 var handler = _questArrow;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.QuestArrow);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.QuestArrow);
+                }
+
                 _questArrow += value;
             }
+
             remove
             {
                 _questArrow -= value;
@@ -704,20 +794,24 @@ namespace ScriptDotNet.Services
                 var handler = _questArrow;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.QuestArrow);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.QuestArrow);
                 }
             }
         }
+
         public event EventHandler<PartyInviteEventArgs> PartyInvite
         {
             add
             {
                 var handler = _partyInvite;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.PartyInvite);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.PartyInvite);
+                }
+
                 _partyInvite += value;
             }
+
             remove
             {
                 _partyInvite -= value;
@@ -725,8 +819,7 @@ namespace ScriptDotNet.Services
                 var handler = _partyInvite;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.PartyInvite);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.PartyInvite);
                 }
             }
         }
@@ -737,9 +830,13 @@ namespace ScriptDotNet.Services
             {
                 var handler = _mapPin;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.MapPin);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.MapPin);
+                }
+
                 _mapPin += value;
             }
+
             remove
             {
                 _mapPin -= value;
@@ -747,8 +844,7 @@ namespace ScriptDotNet.Services
                 var handler = _mapPin;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.MapPin);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.MapPin);
                 }
             }
         }
@@ -759,9 +855,13 @@ namespace ScriptDotNet.Services
             {
                 var handler = _gumpTextEntry;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.GumpTextEntry);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.GumpTextEntry);
+                }
+
                 _gumpTextEntry += value;
             }
+
             remove
             {
                 _gumpTextEntry -= value;
@@ -769,8 +869,7 @@ namespace ScriptDotNet.Services
                 var handler = _gumpTextEntry;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.GumpTextEntry);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.GumpTextEntry);
                 }
             }
         }
@@ -781,9 +880,13 @@ namespace ScriptDotNet.Services
             {
                 var handler = _graphicalEffect;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.GraphicalEffect);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.GraphicalEffect);
+                }
+
                 _graphicalEffect += value;
             }
+
             remove
             {
                 _graphicalEffect -= value;
@@ -791,8 +894,7 @@ namespace ScriptDotNet.Services
                 var handler = _graphicalEffect;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.GraphicalEffect);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.GraphicalEffect);
                 }
             }
         }
@@ -803,9 +905,13 @@ namespace ScriptDotNet.Services
             {
                 var handler = _IRCIncomingText;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.IRCIncomingText);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.IRCIncomingText);
+                }
+
                 _IRCIncomingText += value;
             }
+
             remove
             {
                 _IRCIncomingText -= value;
@@ -813,8 +919,7 @@ namespace ScriptDotNet.Services
                 var handler = _IRCIncomingText;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.IRCIncomingText);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.IRCIncomingText);
                 }
             }
         }
@@ -825,9 +930,13 @@ namespace ScriptDotNet.Services
             {
                 var handler = _messangerIncomingText;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.MessengerEvent);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.MessengerEvent);
+                }
+
                 _messangerIncomingText += value;
             }
+
             remove
             {
                 _messangerIncomingText -= value;
@@ -835,8 +944,7 @@ namespace ScriptDotNet.Services
                 var handler = _messangerIncomingText;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.MessengerEvent);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.MessengerEvent);
                 }
             }
         }
@@ -847,9 +955,13 @@ namespace ScriptDotNet.Services
             {
                 var handler = _setGlobalVar;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.SetGlobalVar);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.SetGlobalVar);
+                }
+
                 _setGlobalVar += value;
             }
+
             remove
             {
                 _setGlobalVar -= value;
@@ -857,8 +969,7 @@ namespace ScriptDotNet.Services
                 var handler = _setGlobalVar;
                 if (handler == null)
                 {
-                    
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.SetGlobalVar);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.SetGlobalVar);
                 }
             }
         }
@@ -869,9 +980,13 @@ namespace ScriptDotNet.Services
             {
                 var handler = _updateObjectStats;
                 if (handler == null)
-                    _client.SendPacket(PacketType.SCSetEventProc, EventTypes.UpdateObjStats);
+                {
+                    Client.SendPacket(PacketType.SCSetEventProc, EventTypes.UpdateObjStats);
+                }
+
                 _updateObjectStats += value;
             }
+
             remove
             {
                 _updateObjectStats -= value;
@@ -879,82 +994,167 @@ namespace ScriptDotNet.Services
                 var handler = _updateObjectStats;
                 if (handler == null)
                 {
-                    _client.SendPacket(PacketType.SCClearEventProc, EventTypes.UpdateObjStats);
+                    Client.SendPacket(PacketType.SCClearEventProc, EventTypes.UpdateObjStats);
                 }
             }
         }
+
+        private event EventHandler<ItemEventArgs> _itemInfo;
+
+        private event EventHandler<ItemEventArgs> _itemDeleted;
+
+        private event EventHandler<SpeechEventArgs> _speech;
+
+        private event EventHandler<ObjectEventArgs> _drawGamePlayer;
+
+        private event EventHandler<MoveRejectionEventArgs> _moveRejection;
+
+        private event EventHandler<DrawContainerEventArgs> _drawContainer;
+
+        private event EventHandler<AddItemToContainerEventArgs> _addItemToContainer;
+
+        private event EventHandler<AddMultipleItemsInContainerEventArgs> _addMultipleItemsInContainer;
+
+        private event EventHandler<RejectMoveItemEventArgs> _rejectMoveItem;
+
+        private event EventHandler<ObjectEventArgs> _updateChar;
+
+        private event EventHandler<ObjectEventArgs> _drawObject;
+
+        private event EventHandler<MenuEventArgs> _menu;
+
+        private event EventHandler<MapMessageEventArgs> _mapMessage;
+
+        private event EventHandler<AllowRefuseAttackEventArgs> _allowRefuseAttack;
+
+        private event EventHandler<ClilocSpeechEventArgs> _clilocSpeech;
+
+        private event EventHandler<ClilocSpeechAffixEventArgs> _clilocSpeechAffix;
+
+        private event EventHandler<UnicodeSpeechEventArgs> _unicodeSpeech;
+
+        private event EventHandler<Buff_DebuffSystemEventArgs> _buffDebuffSystem;
+
+        private event EventHandler<EventArgs> _clientSendResync;
+
+        private event EventHandler<CharAnimationEventArgs> _charAnimation;
+
+        private event EventHandler<EventArgs> _ICQDisconnect;
+
+        private event EventHandler<EventArgs> _ICQConnect;
+
+        private event EventHandler<ICQIncomingTextEventArgs> _ICQIncomingText;
+
+        private event EventHandler<ICQErrorEventArgs> _ICQError;
+
+        private event EventHandler<IncomingGumpEventArgs> _incomingGump;
+
+        private event EventHandler<EventArgs> _timer1;
+
+        private event EventHandler<EventArgs> _timer2;
+
+        private event EventHandler<WindowsMessageEventArgs> _windowsMessage;
+
+        private event EventHandler<SoundEventArgs> _sound;
+
+        private event EventHandler<DeathEventArgs> _death;
+
+        private event EventHandler<QuestArrowEventArgs> _questArrow;
+
+        private event EventHandler<PartyInviteEventArgs> _partyInvite;
+
+        private event EventHandler<MapPinEventArgs> _mapPin;
+
+        private event EventHandler<GumpTextEntryEventArgs> _gumpTextEntry;
+
+        private event EventHandler<GraphicalEffectEventArgs> _graphicalEffect;
+
+        private event EventHandler<IRCIncomingTextEventArgs> _IRCIncomingText;
+
+        private event EventHandler<MessangerIncomingTextEventArgs> _messangerIncomingText;
+
+        private event EventHandler<SetGlobalVarEventArgs> _setGlobalVar;
+
+        private event EventHandler<UpdateObjectStatsEventArgs> _updateObjectStats;
 
         private void cln_ServerEventRecieve(object sender, ServerEventArgs e)
         {
             ProcessEvent(e.Data);
         }
 
-
         private void ProcessEvent(ExecEventProcData data)
         {
-            #region Handle Event Packet
-
             switch (data.EventType)
             {
                 case EventTypes.ItemInfo:
-                    OnItemInfo((int)data.Parameters[0]);
+                    OnItemInfo((uint)data.Parameters[0]);
                     break;
                 case EventTypes.ItemDeleted:
-                    OnItemDeleted((int)data.Parameters[0]);
+                    OnItemDeleted((uint)data.Parameters[0]);
                     break;
                 case EventTypes.Speech:
-                    OnSpeech((string)data.Parameters[0], (string)data.Parameters[1], (int)data.Parameters[2]);
+                    OnSpeech((string)data.Parameters[0], (string)data.Parameters[1], (uint)data.Parameters[2]);
                     break;
                 case EventTypes.DrawGamePlayer:
-                    OnDrawGamePlayer((int)data.Parameters[0]);
+                    OnDrawGamePlayer((uint)data.Parameters[0]);
                     break;
                 case EventTypes.MoveRejection:
-                    OnMoveRejection((ushort)data.Parameters[0], (ushort)data.Parameters[1], (byte)data.Parameters[2], (ushort)data.Parameters[3], (ushort)data.Parameters[4]);
+                    OnMoveRejection(
+                        (ushort)data.Parameters[0],
+                        (ushort)data.Parameters[1],
+                        (byte)data.Parameters[2],
+                        (ushort)data.Parameters[3],
+                        (ushort)data.Parameters[4]);
                     break;
                 case EventTypes.DrawContainer:
-                    OnDrawContainer((int)data.Parameters[0], (ushort)data.Parameters[1]);
+                    OnDrawContainer((uint)data.Parameters[0], (ushort)data.Parameters[1]);
                     break;
                 case EventTypes.AddItemToContainer:
-                    OnAddItemToContainer((int)data.Parameters[0], (int)data.Parameters[1]);
+                    OnAddItemToContainer((uint)data.Parameters[0], (uint)data.Parameters[1]);
                     break;
                 case EventTypes.AddMultipleItemsInCont:
-                    OnAddMultipleItemsInContainer((int)data.Parameters[0]);
+                    OnAddMultipleItemsInContainer((uint)data.Parameters[0]);
                     break;
                 case EventTypes.RejectMoveItem:
                     OnRejectMoveItem((RejectMoveItemReason)data.Parameters[0]);
                     break;
                 case EventTypes.UpdateChar:
-                    OnUpdateChar((int)data.Parameters[0]);
+                    OnUpdateChar((uint)data.Parameters[0]);
                     break;
                 case EventTypes.DrawObject:
-                    OnDrawObject((int)data.Parameters[0]);
+                    OnDrawObject((uint)data.Parameters[0]);
                     break;
                 case EventTypes.Menu:
-                    OnMenu((int)data.Parameters[0], (ushort)data.Parameters[1]);
+                    OnMenu((uint)data.Parameters[0], (ushort)data.Parameters[1]);
                     break;
                 case EventTypes.MapMessage:
-                    OnMapMessage((int)data.Parameters[0], (int)data.Parameters[1], (int)data.Parameters[2]);
+                    OnMapMessage((uint)data.Parameters[0], (uint)data.Parameters[1], (uint)data.Parameters[2]);
                     break;
                 case EventTypes.Allow_RefuseAttack:
-                    OnAllowRefuseAttack((int)data.Parameters[0], Convert.ToBoolean(data.Parameters[1]));
+                    OnAllowRefuseAttack((uint)data.Parameters[0], Convert.ToBoolean(data.Parameters[1]));
                     break;
                 case EventTypes.ClilocSpeech:
-                    OnClilocSpeech((int)data.Parameters[0], (string)data.Parameters[1], (int)data.Parameters[2], (string)data.Parameters[3]);
+                    OnClilocSpeech((uint)data.Parameters[0], (string)data.Parameters[1], (uint)data.Parameters[2], (string)data.Parameters[3]);
                     break;
                 case EventTypes.ClilocSpeechAffix:
-                    OnClilocSpeechAffix((int)data.Parameters[0], (string)data.Parameters[1], (int)data.Parameters[2], (string)data.Parameters[3], (string)data.Parameters[4]);
+                    OnClilocSpeechAffix(
+                        (uint)data.Parameters[0],
+                        (string)data.Parameters[1],
+                        (uint)data.Parameters[2],
+                        (string)data.Parameters[3],
+                        (string)data.Parameters[4]);
                     break;
                 case EventTypes.UnicodeSpeech:
-                    OnUnicodeSpeech((string)data.Parameters[0], (string)data.Parameters[1], (int)data.Parameters[2]);
+                    OnUnicodeSpeech((string)data.Parameters[0], (string)data.Parameters[1], (uint)data.Parameters[2]);
                     break;
                 case EventTypes.Buff_DebuffSystem:
-                    OnBuff_DebuffSystem((int)data.Parameters[0], (ushort)data.Parameters[1], (bool)data.Parameters[2]);
+                    OnBuff_DebuffSystem((uint)data.Parameters[0], (ushort)data.Parameters[1], (bool)data.Parameters[2]);
                     break;
                 case EventTypes.ClientSendResync:
                     OnClientSendResync();
                     break;
                 case EventTypes.CharAnimation:
-                    OnCharAnimation((int)data.Parameters[0], (ushort)data.Parameters[1]);
+                    OnCharAnimation((uint)data.Parameters[0], (ushort)data.Parameters[1]);
                     break;
                 case EventTypes.ICQDisconnect:
                     OnICQDisconnect();
@@ -963,13 +1163,13 @@ namespace ScriptDotNet.Services
                     OnICQConnect();
                     break;
                 case EventTypes.ICQIncomingText:
-                    OnICQIncomingText((int)data.Parameters[0], (string)data.Parameters[1]);
+                    OnICQIncomingText((uint)data.Parameters[0], (string)data.Parameters[1]);
                     break;
                 case EventTypes.ICQError:
                     OnICQError((string)data.Parameters[0]);
                     break;
                 case EventTypes.IncomingGump:
-                    OnIncomingGump((int)data.Parameters[0], (int)data.Parameters[1], (int)data.Parameters[2], (int)data.Parameters[3]);
+                    OnIncomingGump((uint)data.Parameters[0], (uint)data.Parameters[1], (int)data.Parameters[2], (int)data.Parameters[3]);
                     break;
                 case EventTypes.Timer1:
                     OnTimer1();
@@ -978,7 +1178,7 @@ namespace ScriptDotNet.Services
                     OnTimer2();
                     break;
                 case EventTypes.WindowsMessage:
-                    OnWindowsMessage((int)data.Parameters[0]);
+                    OnWindowsMessage((uint)data.Parameters[0]);
                     break;
                 case EventTypes.Sound:
                     OnSound((ushort)data.Parameters[0], (ushort)data.Parameters[1], (ushort)data.Parameters[2], (short)data.Parameters[3]);
@@ -990,37 +1190,57 @@ namespace ScriptDotNet.Services
                     OnQuestArrow((ushort)data.Parameters[0], (ushort)data.Parameters[1], Convert.ToBoolean(data.Parameters[2]));
                     break;
                 case EventTypes.PartyInvite:
-                    OnPartyInvite((int)data.Parameters[0]);
+                    OnPartyInvite((uint)data.Parameters[0]);
                     break;
                 case EventTypes.MapPin:
-                    OnMapPin((int)data.Parameters[0], (byte)data.Parameters[1], (byte)data.Parameters[2], (ushort)data.Parameters[3], (ushort)data.Parameters[4]);
+                    OnMapPin((uint)data.Parameters[0], (byte)data.Parameters[1], (byte)data.Parameters[2], (ushort)data.Parameters[3], (ushort)data.Parameters[4]);
                     break;
                 case EventTypes.GumpTextEntry:
-                    OnGumpTextEntry((int)data.Parameters[0], (string)data.Parameters[1], (byte)data.Parameters[2], (int)data.Parameters[3], (string)data.Parameters[4]);
+                    OnGumpTextEntry((uint)data.Parameters[0], (string)data.Parameters[1], (byte)data.Parameters[2], (uint)data.Parameters[3], (string)data.Parameters[4]);
                     break;
                 case EventTypes.GraphicalEffect:
-                    OnGraphicalEffect((int)data.Parameters[0], (ushort)data.Parameters[1], (ushort)data.Parameters[2], (short)data.Parameters[3],
-                        (int)data.Parameters[4], (ushort)data.Parameters[5], (ushort)data.Parameters[6], (short)data.Parameters[7],
-                        (byte)data.Parameters[8], (ushort)data.Parameters[9], (byte)data.Parameters[10]);
+                    OnGraphicalEffect(
+                        (uint)data.Parameters[0],
+                        (ushort)data.Parameters[1],
+                        (ushort)data.Parameters[2],
+                        (short)data.Parameters[3],
+                        (uint)data.Parameters[4],
+                        (ushort)data.Parameters[5],
+                        (ushort)data.Parameters[6],
+                        (short)data.Parameters[7],
+                        (byte)data.Parameters[8],
+                        (ushort)data.Parameters[9],
+                        (byte)data.Parameters[10]);
                     break;
                 case EventTypes.IRCIncomingText:
                     OnIRCIncomingText((string)data.Parameters[0]);
                     break;
                 case EventTypes.MessengerEvent:
-                    OnMessageIncomingText((MessangerType)data.Parameters[0], (string)data.Parameters[1], (string)data.Parameters[2], (string)data.Parameters[3], 
-                        (string)data.Parameters[4], (MessangerEventType)data.Parameters[5]);
+                    OnMessageIncomingText(
+                        (MessangerType)data.Parameters[0],
+                        (string)data.Parameters[1],
+                        (string)data.Parameters[2],
+                        (string)data.Parameters[3],
+                        (string)data.Parameters[4],
+                        (MessangerEventType)data.Parameters[5]);
                     break;
                 case EventTypes.SetGlobalVar:
                     OnSetGlobalVar((string)data.Parameters[0], (string)data.Parameters[1]);
                     break;
                 case EventTypes.UpdateObjStats:
-                    OnUpdateObjectStats((int)data.Parameters[0], (int)data.Parameters[1], (int)data.Parameters[2], (int)data.Parameters[3], (int)data.Parameters[4], (int)data.Parameters[5], (int)data.Parameters[6]);
+                    OnUpdateObjectStats(
+                        (uint)data.Parameters[0],
+                        (uint)data.Parameters[1],
+                        (uint)data.Parameters[2],
+                        (uint)data.Parameters[3],
+                        (uint)data.Parameters[4],
+                        (uint)data.Parameters[5],
+                        (uint)data.Parameters[6]);
                     break;
             }
-            #endregion
         }
 
-        private void OnUpdateObjectStats(int objectId, int currentLife, int maxLife, int currentMana, int maxMana, int currentStamina, int maxStamina)
+        private void OnUpdateObjectStats(uint objectId, uint currentLife, uint maxLife, uint currentMana, uint maxMana, uint currentStamina, uint maxStamina)
         {
             _updateObjectStats?.Invoke(this, new UpdateObjectStatsEventArgs(objectId, currentLife, maxLife, currentMana, maxMana, currentStamina, maxStamina));
         }
@@ -1040,22 +1260,22 @@ namespace ScriptDotNet.Services
             _IRCIncomingText?.Invoke(this, new IRCIncomingTextEventArgs(message));
         }
 
-        private void OnGraphicalEffect(int srcId, ushort srcX, ushort srcY, short srcZ, int dstId, ushort dstX, ushort dstY, short dstZ, byte type, ushort itemId, byte fixedDir)
+        private void OnGraphicalEffect(uint srcId, ushort srcX, ushort srcY, short srcZ, uint dstId, ushort dstX, ushort dstY, short dstZ, byte type, ushort itemId, byte fixedDir)
         {
             _graphicalEffect?.Invoke(this, new GraphicalEffectEventArgs(srcId, srcX, srcY, srcZ, dstId, dstX, dstY, dstZ, type, itemId, fixedDir));
         }
 
-        private void OnGumpTextEntry(int gumpTextEntryId, string title, byte inputStyle, int maxValue, string title2)
+        private void OnGumpTextEntry(uint gumpTextEntryId, string title, byte inputStyle, uint maxValue, string title2)
         {
             _gumpTextEntry?.Invoke(this, new GumpTextEntryEventArgs(gumpTextEntryId, title, inputStyle, maxValue, title2));
         }
 
-        private void OnMapPin(int id, byte action, byte pinId, ushort x, ushort y)
+        private void OnMapPin(uint id, byte action, byte pinId, ushort x, ushort y)
         {
             _mapPin?.Invoke(this, new MapPinEventArgs(id, action, pinId, x, y));
         }
 
-        private void OnPartyInvite(int inviterId)
+        private void OnPartyInvite(uint inviterId)
         {
             _partyInvite?.Invoke(this, new PartyInviteEventArgs(inviterId));
         }
@@ -1075,7 +1295,7 @@ namespace ScriptDotNet.Services
             _sound?.Invoke(this, new SoundEventArgs(soundId, x, y, z));
         }
 
-        private void OnWindowsMessage(int lParam)
+        private void OnWindowsMessage(uint lParam)
         {
             _windowsMessage?.Invoke(this, new WindowsMessageEventArgs(lParam));
         }
@@ -1090,7 +1310,7 @@ namespace ScriptDotNet.Services
             _timer1?.Invoke(this, new EventArgs());
         }
 
-        private void OnIncomingGump(int serial, int gumpId, int x, int y)
+        private void OnIncomingGump(uint serial, uint gumpId, int x, int y)
         {
             _incomingGump?.Invoke(this, new IncomingGumpEventArgs(serial, gumpId, x, y));
         }
@@ -1100,7 +1320,7 @@ namespace ScriptDotNet.Services
             _ICQError?.Invoke(this, new ICQErrorEventArgs(text));
         }
 
-        private void OnICQIncomingText(int uin, string text)
+        private void OnICQIncomingText(uint uin, string text)
         {
             _ICQIncomingText?.Invoke(this, new ICQIncomingTextEventArgs(uin, text));
         }
@@ -1115,7 +1335,7 @@ namespace ScriptDotNet.Services
             _ICQDisconnect?.Invoke(this, new EventArgs());
         }
 
-        private void OnCharAnimation(int objectId, ushort action)
+        private void OnCharAnimation(uint objectId, ushort action)
         {
             _charAnimation?.Invoke(this, new CharAnimationEventArgs(objectId, action));
         }
@@ -1125,47 +1345,47 @@ namespace ScriptDotNet.Services
             _clientSendResync?.Invoke(this, new EventArgs());
         }
 
-        private void OnBuff_DebuffSystem(int objectId, ushort attributeId, bool isEnabled)
+        private void OnBuff_DebuffSystem(uint objectId, ushort attributeId, bool isEnabled)
         {
             _buffDebuffSystem?.Invoke(this, new Buff_DebuffSystemEventArgs(objectId, attributeId, isEnabled));
         }
 
-        private void OnUnicodeSpeech(string text, string senderName, int senderId)
+        private void OnUnicodeSpeech(string text, string senderName, uint senderId)
         {
             _unicodeSpeech?.Invoke(this, new UnicodeSpeechEventArgs(text, senderName, senderId));
         }
 
-        private void OnClilocSpeechAffix(int senderId, string senderName, int clilocId, string affix, string text)
+        private void OnClilocSpeechAffix(uint senderId, string senderName, uint clilocId, string affix, string text)
         {
             _clilocSpeechAffix?.Invoke(this, new ClilocSpeechAffixEventArgs(senderId, senderName, clilocId, affix, text));
         }
 
-        private void OnClilocSpeech(int senderId, string senderName, int clilocId, string text)
+        private void OnClilocSpeech(uint senderId, string senderName, uint clilocId, string text)
         {
             _clilocSpeech?.Invoke(this, new ClilocSpeechEventArgs(senderId, senderName, clilocId, text));
         }
 
-        private void OnAllowRefuseAttack(int targetId, bool isAttackOk)
+        private void OnAllowRefuseAttack(uint targetId, bool isAttackOk)
         {
             _allowRefuseAttack?.Invoke(this, new AllowRefuseAttackEventArgs(targetId, isAttackOk));
         }
 
-        private void OnMapMessage(int itemId, int centerX, int centerY)
+        private void OnMapMessage(uint itemId, uint centerX, uint centerY)
         {
             _mapMessage?.Invoke(this, new MapMessageEventArgs(itemId, centerX, centerY));
         }
 
-        private void OnMenu(int dialogId, ushort menuId)
+        private void OnMenu(uint dialogId, ushort menuId)
         {
             _menu?.Invoke(this, new MenuEventArgs(dialogId, menuId));
         }
 
-        private void OnDrawObject(int objectId)
+        private void OnDrawObject(uint objectId)
         {
             _drawObject?.Invoke(this, new ObjectEventArgs(objectId));
         }
 
-        private void OnUpdateChar(int objectId)
+        private void OnUpdateChar(uint objectId)
         {
             _updateChar?.Invoke(this, new ObjectEventArgs(objectId));
         }
@@ -1175,17 +1395,17 @@ namespace ScriptDotNet.Services
             _rejectMoveItem?.Invoke(this, new RejectMoveItemEventArgs(reason));
         }
 
-        private void OnAddMultipleItemsInContainer(int containerId)
+        private void OnAddMultipleItemsInContainer(uint containerId)
         {
             _addMultipleItemsInContainer?.Invoke(this, new AddMultipleItemsInContainerEventArgs(containerId));
         }
 
-        private void OnAddItemToContainer(int itemId, int containerId)
+        private void OnAddItemToContainer(uint itemId, uint containerId)
         {
             _addItemToContainer?.Invoke(this, new AddItemToContainerEventArgs(itemId, containerId));
         }
 
-        private void OnDrawContainer(int containerId, ushort modelGump)
+        private void OnDrawContainer(uint containerId, ushort modelGump)
         {
             _drawContainer?.Invoke(this, new DrawContainerEventArgs(containerId, modelGump));
         }
@@ -1195,22 +1415,22 @@ namespace ScriptDotNet.Services
             _moveRejection?.Invoke(this, new MoveRejectionEventArgs(xSource, ySource, direction, xDest, yDest));
         }
 
-        private void OnDrawGamePlayer(int objectId)
+        private void OnDrawGamePlayer(uint objectId)
         {
             _drawGamePlayer?.Invoke(this, new ObjectEventArgs(objectId));
         }
 
-        private void OnSpeech(string text, string senderName, int senderId)
+        private void OnSpeech(string text, string senderName, uint senderId)
         {
             _speech?.Invoke(this, new SpeechEventArgs(text, senderName, senderId));
         }
 
-        private void OnItemDeleted(int itemId)
+        private void OnItemDeleted(uint itemId)
         {
             _itemDeleted?.Invoke(this, new ItemEventArgs(itemId));
         }
 
-        private void OnItemInfo(int itemId)
+        private void OnItemInfo(uint itemId)
         {
             _itemInfo?.Invoke(this, new ItemEventArgs(itemId));
         }

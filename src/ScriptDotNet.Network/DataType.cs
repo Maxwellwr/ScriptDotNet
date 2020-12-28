@@ -1,14 +1,21 @@
-﻿namespace ScriptDotNet.Network
+﻿// -----------------------------------------------------------------------
+// <copyright file="DataType.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace ScriptDotNet.Network
 {
     public enum DataType : byte
     {
-        parUnicodeString = 0,
-        parInteger = 1,
-        parBoolean = 7,
-        parCardinal = 3,
-        parWord = 4,
-        parByte = 5,
-        parByteArray = 6
+        UnicodeString = 0,
+        Cardinal = 1,
+        Integer = 2,
+        Word = 3,
+        Smallint = 4,
+        Byte = 5,
+        ShortInt = 6,
+        Boolean = 7,
     }
-
 }

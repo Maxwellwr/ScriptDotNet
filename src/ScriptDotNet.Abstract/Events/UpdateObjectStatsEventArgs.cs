@@ -1,10 +1,17 @@
-﻿using System;
+﻿// -----------------------------------------------------------------------
+// <copyright file="UpdateObjectStatsEventArgs.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using System;
 
 namespace ScriptDotNet
 {
     public class UpdateObjectStatsEventArgs : EventArgs
     {
-        public UpdateObjectStatsEventArgs(int objectId, int currentLife, int maxLife, int currentMana, int maxMana, int currentStamina, int maxStamina)
+        public UpdateObjectStatsEventArgs(uint objectId, uint currentLife, uint maxLife, uint currentMana, uint maxMana, uint currentStamina, uint maxStamina)
         {
             ObjectId = objectId;
             CurrentLife = currentLife;
@@ -15,14 +22,18 @@ namespace ScriptDotNet
             MaxStamina = maxStamina;
         }
 
-        public int ObjectId { get; set; }
-        public int CurrentLife { get; set; }
-        public int MaxLife { get; set; }
-        public int CurrentMana { get; set; }
-        public int MaxMana { get; set; }
-        public int CurrentStamina { get; set; }
-        public int MaxStamina { get; set; }
+        public uint ObjectId { get; set; }
+
+        public uint CurrentLife { get; set; }
+
+        public uint MaxLife { get; set; }
+
+        public uint CurrentMana { get; set; }
+
+        public uint MaxMana { get; set; }
+
+        public uint CurrentStamina { get; set; }
+
+        public uint MaxStamina { get; set; }
     }
-
-
 }

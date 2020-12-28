@@ -1,23 +1,30 @@
-﻿using ScriptDotNet.Network;
+﻿// -----------------------------------------------------------------------
+// <copyright file="ReagentService.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using ScriptDotNet.Network;
 
 namespace ScriptDotNet.Services
 {
-    public class ReagentService: BaseService, IReagentService
+    public class ReagentService : BaseService, IReagentService
     {
-        public readonly IObjectSearchService _objectSearchService;
-
         public ReagentService(IStealthClient client, IObjectSearchService objectSearchService)
-            :base(client)
+            : base(client)
         {
-            _objectSearchService = objectSearchService;
+            ObjectSearchService = objectSearchService;
         }
+
+        public IObjectSearchService ObjectSearchService { get; private set; }
 
         public int BMCount
         {
             get
             {
-                _objectSearchService.FindTypeEx((ushort)Reagents.BM, 0x0000, _objectSearchService.Backpack, true);
-                return _objectSearchService.FindFullQuantity;
+                ObjectSearchService.FindTypeEx((ushort)Reagents.BM, 0x0000, ObjectSearchService.Backpack, true);
+                return ObjectSearchService.FindFullQuantity;
             }
         }
 
@@ -25,8 +32,8 @@ namespace ScriptDotNet.Services
         {
             get
             {
-                _objectSearchService.FindTypeEx((ushort)Reagents.BP, 0x0000, _objectSearchService.Backpack, true);
-                return _objectSearchService.FindFullQuantity;
+                ObjectSearchService.FindTypeEx((ushort)Reagents.BP, 0x0000, ObjectSearchService.Backpack, true);
+                return ObjectSearchService.FindFullQuantity;
             }
         }
 
@@ -34,8 +41,8 @@ namespace ScriptDotNet.Services
         {
             get
             {
-                _objectSearchService.FindTypeEx((ushort)Reagents.GA, 0x0000, _objectSearchService.Backpack, true);
-                return _objectSearchService.FindFullQuantity;
+                ObjectSearchService.FindTypeEx((ushort)Reagents.GA, 0x0000, ObjectSearchService.Backpack, true);
+                return ObjectSearchService.FindFullQuantity;
             }
         }
 
@@ -43,8 +50,8 @@ namespace ScriptDotNet.Services
         {
             get
             {
-                _objectSearchService.FindTypeEx((ushort)Reagents.GS, 0x0000, _objectSearchService.Backpack, true);
-                return _objectSearchService.FindFullQuantity;
+                ObjectSearchService.FindTypeEx((ushort)Reagents.GS, 0x0000, ObjectSearchService.Backpack, true);
+                return ObjectSearchService.FindFullQuantity;
             }
         }
 
@@ -52,8 +59,8 @@ namespace ScriptDotNet.Services
         {
             get
             {
-                _objectSearchService.FindTypeEx((ushort)Reagents.MR, 0x0000, _objectSearchService.Backpack, true);
-                return _objectSearchService.FindFullQuantity;
+                ObjectSearchService.FindTypeEx((ushort)Reagents.MR, 0x0000, ObjectSearchService.Backpack, true);
+                return ObjectSearchService.FindFullQuantity;
             }
         }
 
@@ -61,8 +68,8 @@ namespace ScriptDotNet.Services
         {
             get
             {
-                _objectSearchService.FindTypeEx((ushort)Reagents.NS, 0x0000, _objectSearchService.Backpack, true);
-                return _objectSearchService.FindFullQuantity;
+                ObjectSearchService.FindTypeEx((ushort)Reagents.NS, 0x0000, ObjectSearchService.Backpack, true);
+                return ObjectSearchService.FindFullQuantity;
             }
         }
 
@@ -70,8 +77,8 @@ namespace ScriptDotNet.Services
         {
             get
             {
-                _objectSearchService.FindTypeEx((ushort)Reagents.SA, 0x0000, _objectSearchService.Backpack, true);
-                return _objectSearchService.FindFullQuantity;
+                ObjectSearchService.FindTypeEx((ushort)Reagents.SA, 0x0000, ObjectSearchService.Backpack, true);
+                return ObjectSearchService.FindFullQuantity;
             }
         }
 
@@ -79,8 +86,8 @@ namespace ScriptDotNet.Services
         {
             get
             {
-                _objectSearchService.FindTypeEx((ushort)Reagents.SS, 0x0000, _objectSearchService.Backpack, true);
-                return _objectSearchService.FindFullQuantity;
+                ObjectSearchService.FindTypeEx((ushort)Reagents.SS, 0x0000, ObjectSearchService.Backpack, true);
+                return ObjectSearchService.FindFullQuantity;
             }
         }
     }

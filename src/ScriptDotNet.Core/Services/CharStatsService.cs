@@ -1,4 +1,12 @@
-﻿using ScriptDotNet.Network;
+﻿// -----------------------------------------------------------------------
+// <copyright file="CharStatsService.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using ScriptDotNet.Network;
+
 using System;
 using System.Collections.Generic;
 
@@ -7,74 +15,69 @@ namespace ScriptDotNet.Services
     public class CharStatsService : BaseService, ICharStatsService
     {
         private readonly IGameObjectService _gameObjectService;
-        private readonly IObjectSearchService _objectSearchService;
-        private readonly IMoveItemService _moveItemService;
+        private uint _self;
 
         public CharStatsService(
             IStealthClient client,
-            IGameObjectService gameObjectService,
-            IObjectSearchService objectSearchService,
-            IMoveItemService moveItemService)
+            IGameObjectService gameObjectService)
             : base(client)
         {
             _gameObjectService = gameObjectService;
-            _objectSearchService = objectSearchService;
-            _moveItemService = moveItemService;
         }
 
         public bool Hidden
         {
-            get { return _client.SendPacket<bool>(PacketType.SCGetHiddenStatus); }
+            get { return Client.SendPacket<bool>(PacketType.SCGetHiddenStatus); }
         }
 
         public bool Paralyzed
         {
-            get { return _client.SendPacket<bool>(PacketType.SCGetParalyzedStatus); }
+            get { return Client.SendPacket<bool>(PacketType.SCGetParalyzedStatus); }
         }
 
         public bool Poisoned
         {
-            get { return _client.SendPacket<bool>(PacketType.SCGetPoisonedStatus); }
+            get { return Client.SendPacket<bool>(PacketType.SCGetPoisonedStatus); }
         }
 
         public ushort Armor
         {
-            get { return _client.SendPacket<ushort>(PacketType.SCGetSelfArmor); }
+            get { return Client.SendPacket<ushort>(PacketType.SCGetSelfArmor); }
         }
 
         public string CharName
         {
-            get { return _client.SendPacket<string>(PacketType.SCGetCharName); }
+            get { return Client.SendPacket<string>(PacketType.SCGetCharName); }
         }
 
         public string CharTitle
         {
-            get { return _client.SendPacket<string>(PacketType.SCGetCharTitle); }
+            get { return Client.SendPacket<string>(PacketType.SCGetCharTitle); }
         }
 
         public bool Dead
         {
-            get { return _client.SendPacket<bool>(PacketType.SCGetDeadStatus); }
+            get { return Client.SendPacket<bool>(PacketType.SCGetDeadStatus); }
         }
 
         public int Dex
         {
-            get { return _client.SendPacket<int>(PacketType.SCGetSelfDex); }
+            get { return Client.SendPacket<int>(PacketType.SCGetSelfDex); }
         }
 
         public uint Gold
         {
-            get { return _client.SendPacket<uint>(PacketType.SCGetGetSelfGold); }
+            get { return Client.SendPacket<uint>(PacketType.SCGetGetSelfGold); }
         }
 
         public int HP
         {
-            get { return _client.SendPacket<int>(PacketType.SCGetSelfLife); }
+            get { return Client.SendPacket<int>(PacketType.SCGetSelfLife); }
         }
 
         public int Int
         {
-            get { return _client.SendPacket<int>(PacketType.SCGetSelfInt); }
+            get { return Client.SendPacket<int>(PacketType.SCGetSelfInt); }
         }
 
         public int Life
@@ -84,12 +87,12 @@ namespace ScriptDotNet.Services
 
         public int Luck
         {
-            get { return _client.SendPacket<int>(PacketType.SCGetSelfLuck); }
+            get { return Client.SendPacket<int>(PacketType.SCGetSelfLuck); }
         }
 
         public int Mana
         {
-            get { return _client.SendPacket<int>(PacketType.SCGetSelfMana); }
+            get { return Client.SendPacket<int>(PacketType.SCGetSelfMana); }
         }
 
         public int MaxHP
@@ -99,91 +102,93 @@ namespace ScriptDotNet.Services
 
         public int MaxLife
         {
-            get { return _client.SendPacket<int>(PacketType.SCGetSelfMaxLife); }
+            get { return Client.SendPacket<int>(PacketType.SCGetSelfMaxLife); }
         }
 
         public int MaxMana
         {
-            get { return _client.SendPacket<int>(PacketType.SCGetSelfMaxMana); }
+            get { return Client.SendPacket<int>(PacketType.SCGetSelfMaxMana); }
         }
 
         public int MaxStam
         {
-            get { return _client.SendPacket<int>(PacketType.SCGetSelfMaxStam); }
+            get { return Client.SendPacket<int>(PacketType.SCGetSelfMaxStam); }
         }
 
         public ushort MaxWeight
         {
-            get { return _client.SendPacket<ushort>(PacketType.SCGetSelfMaxWeight); }
+            get { return Client.SendPacket<ushort>(PacketType.SCGetSelfMaxWeight); }
         }
 
         public byte PetsCurrent
         {
-            get { return _client.SendPacket<byte>(PacketType.SCGetSelfPetsCurrent); }
+            get { return Client.SendPacket<byte>(PacketType.SCGetSelfPetsCurrent); }
         }
 
         public byte PetsMax
         {
-            get { return _client.SendPacket<byte>(PacketType.SCGetSelfPetsMax); }
+            get { return Client.SendPacket<byte>(PacketType.SCGetSelfPetsMax); }
         }
 
         public byte Race
         {
-            get { return _client.SendPacket<byte>(PacketType.SCGetSelfRace); }
+            get { return Client.SendPacket<byte>(PacketType.SCGetSelfRace); }
         }
 
         public byte Sex
         {
-            get { return _client.SendPacket<byte>(PacketType.SCGetSelfSex); }
+            get { return Client.SendPacket<byte>(PacketType.SCGetSelfSex); }
         }
 
         public int Stam
         {
-            get { return _client.SendPacket<int>(PacketType.SCGetSelfStam); }
+            get { return Client.SendPacket<int>(PacketType.SCGetSelfStam); }
         }
 
         public int Str
         {
-            get { return _client.SendPacket<int>(PacketType.SCGetSelfStr); }
+            get { return Client.SendPacket<int>(PacketType.SCGetSelfStr); }
         }
 
         public ushort Weight
         {
-            get { return _client.SendPacket<ushort>(PacketType.SCGetSelfWeight); }
+            get { return Client.SendPacket<ushort>(PacketType.SCGetSelfWeight); }
         }
 
         public ushort ColdResist
         {
-            get { return _client.SendPacket<ushort>(PacketType.SCGetSelfColdResist); }
+            get { return Client.SendPacket<ushort>(PacketType.SCGetSelfColdResist); }
         }
 
         public ushort EnergyResist
         {
-            get { return _client.SendPacket<ushort>(PacketType.SCGetSelfEnergyResist); }
+            get { return Client.SendPacket<ushort>(PacketType.SCGetSelfEnergyResist); }
         }
 
         public ushort FireResist
         {
-            get { return _client.SendPacket<ushort>(PacketType.SCGetSelfFireResist); }
+            get { return Client.SendPacket<ushort>(PacketType.SCGetSelfFireResist); }
         }
 
         public ushort PoisonResist
         {
-            get { return _client.SendPacket<ushort>(PacketType.SCGetSelfPoisonResist); }
+            get { return Client.SendPacket<ushort>(PacketType.SCGetSelfPoisonResist); }
         }
 
         public Point QuestArrow
         {
-            get { return _client.SendPacket<Point>(PacketType.SCGetQuestArrow); }
+            get { return Client.SendPacket<Point>(PacketType.SCGetQuestArrow); }
         }
 
-        private uint _self;
         public uint Self
         {
             get
             {
                 if (_self == 0)
-                    _self = _client.SendPacket<uint>(PacketType.SCGetSelfID);
+                {
+                    _self = Client.SendPacket<uint>(PacketType.SCGetSelfID);
+                }
+
                 return _self;
             }
         }
@@ -195,17 +200,17 @@ namespace ScriptDotNet.Services
 
         public byte WorldNum
         {
-            get { return _client.SendPacket<byte>(PacketType.SCGetWorldNum); }
+            get { return Client.SendPacket<byte>(PacketType.SCGetWorldNum); }
         }
 
         public ExtendedInfo ExtendedInfo
         {
-            get { return _client.SendPacket<ExtendedInfo>(PacketType.SCGetExtInfo); }
+            get { return Client.SendPacket<ExtendedInfo>(PacketType.SCGetExtInfo); }
         }
 
         public List<BuffIcon> BuffBarInfo
         {
-            get { return _client.SendPacket<List<BuffIcon>>(PacketType.SCGetBuffBarInfo); }
+            get { return Client.SendPacket<List<BuffIcon>>(PacketType.SCGetBuffBarInfo); }
         }
 
         public ushort X
@@ -225,17 +230,17 @@ namespace ScriptDotNet.Services
 
         public string GetAltName(uint objId)
         {
-            return _client.SendPacket<string>(PacketType.SCGetAltName, objId);
+            return Client.SendPacket<string>(PacketType.SCGetAltName, objId);
         }
 
         public uint GetPrice(uint objId)
         {
-            return _client.SendPacket<uint>(PacketType.SCGetPrice, objId);
+            return Client.SendPacket<uint>(PacketType.SCGetPrice, objId);
         }
 
         public string GetTitle(uint objId)
         {
-            return _client.SendPacket<string>(PacketType.SCGetTitle, objId);
+            return Client.SendPacket<string>(PacketType.SCGetTitle, objId);
         }
     }
 }

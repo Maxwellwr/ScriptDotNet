@@ -1,63 +1,69 @@
-﻿using ScriptDotNet.Network;
+﻿// -----------------------------------------------------------------------
+// <copyright file="PartyService.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using ScriptDotNet.Network;
 
 namespace ScriptDotNet.Services
 {
-    public class PartyService:BaseService, IPartyService
+    public class PartyService : BaseService, IPartyService
     {
         public PartyService(IStealthClient client)
-            :base(client)
+            : base(client)
         {
-
         }
 
         public bool InParty
         {
-            get { return _client.SendPacket<bool>(PacketType.SCInParty); }
+            get { return Client.SendPacket<bool>(PacketType.SCInParty); }
         }
 
         public uint[] PartyMembersList
         {
-            get { return _client.SendPacket<uint[]>(PacketType.SCPartyMembersList); }
+            get { return Client.SendPacket<uint[]>(PacketType.SCPartyMembersList); }
         }
 
         public void InviteToParty(uint id)
         {
-            _client.SendPacket(PacketType.SCInviteToParty, id);
+            Client.SendPacket(PacketType.SCInviteToParty, id);
         }
 
         public void PartyAcceptInvite()
         {
-            _client.SendPacket(PacketType.SCPartyAcceptInvite);
+            Client.SendPacket(PacketType.SCPartyAcceptInvite);
         }
 
         public void PartyCanLootMe(bool value)
         {
-            _client.SendPacket(PacketType.SCPartyCanLootMe, value);
+            Client.SendPacket(PacketType.SCPartyCanLootMe, value);
         }
 
         public void PartyDeclineInvite()
         {
-            _client.SendPacket(PacketType.SCPartyDeclineInvite);
+            Client.SendPacket(PacketType.SCPartyDeclineInvite);
         }
 
         public void PartyLeave()
         {
-            _client.SendPacket(PacketType.SCPartyLeave);
+            Client.SendPacket(PacketType.SCPartyLeave);
         }
 
         public void PartyPrivateMessageTo(uint id, string msg)
         {
-            _client.SendPacket(PacketType.SCPartyMessageTo, id, msg);
+            Client.SendPacket(PacketType.SCPartyMessageTo, id, msg);
         }
 
         public void PartySay(string msg)
         {
-            _client.SendPacket(PacketType.SCPartySay, msg);
+            Client.SendPacket(PacketType.SCPartySay, msg);
         }
 
         public void RemoveFromParty(uint id)
         {
-            _client.SendPacket(PacketType.SCRemoveFromParty, id);
+            Client.SendPacket(PacketType.SCRemoveFromParty, id);
         }
     }
 }

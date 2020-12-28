@@ -1,10 +1,16 @@
-﻿using System.Collections.Generic;
+﻿// -----------------------------------------------------------------------
+// <copyright file="ICharStatsService.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using System.Collections.Generic;
 
 namespace ScriptDotNet.Services
 {
     public interface ICharStatsService
     {
-        #region State
         /// <summary>
         /// Returns the char - Stealth(Hidden).
         /// If there is no connection to the UO server - returns False.
@@ -22,9 +28,7 @@ namespace ScriptDotNet.Services
         /// В случае, если отсутствует соединение с UO сервером - вернет False.
         /// </summary>
         bool Poisoned { get; }
-        #endregion
 
-        #region Stats
         /// <summary>
         /// Returns the char - number of "units" of armor(Armor).
         /// If there is no connection to the UO server - returns 0.
@@ -172,10 +176,7 @@ namespace ScriptDotNet.Services
         /// В случае, если отсутствует соединение с UO сервером - вернет 0.
         /// </summary>
         ushort Weight { get; }
-        #endregion
 
-
-        #region Resists
         /// <summary>
         /// Returns the char - cold resistance(Cold Resist).
         /// This only works from the client version Samurie Empire + on the server must be enabled advanced stats sent to the client, otherwise returns 0.
@@ -203,14 +204,15 @@ namespace ScriptDotNet.Services
         /// If there is no connection to the UO server - returns 0.
         /// </summary>
         ushort PoisonResist { get; }
-        #endregion
 
         /// <summary>
         /// Возвращает параметр чара - ID чара (Char ID).
         /// В случае, если отсутствует соединение с UO сервером - вернет 0.
         /// </summary>
         uint Self { get; }
+
         uint SelfHandle { get; }
+
         Point QuestArrow { get; }
 
         /// <summary>
@@ -231,14 +233,19 @@ namespace ScriptDotNet.Services
         /// Returns extended info of char in KR++ version of UO.
         /// </summary>
         ExtendedInfo ExtendedInfo { get; }
+
         List<BuffIcon> BuffBarInfo { get; }
 
         ushort X { get; }
+
         ushort Y { get; }
+
         sbyte Z { get; }
 
-        string GetAltName(uint ObjID);
-        uint GetPrice(uint ObjID);
-        string GetTitle(uint ObjID);
+        string GetAltName(uint objID);
+
+        uint GetPrice(uint objID);
+
+        string GetTitle(uint objID);
     }
 }

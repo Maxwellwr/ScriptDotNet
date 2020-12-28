@@ -1,4 +1,12 @@
-﻿using ScriptDotNet.Network;
+﻿// -----------------------------------------------------------------------
+// <copyright file="MoveService.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using ScriptDotNet.Network;
+
 using System;
 using System.Collections.Generic;
 
@@ -9,7 +17,6 @@ namespace ScriptDotNet.Services
         public MoveService(IStealthClient client)
             : base(client)
         {
-
         }
 
         public bool MoveBetweenTwoCorners
@@ -18,6 +25,7 @@ namespace ScriptDotNet.Services
             {
                 throw new NotImplementedException();
             }
+
             set
             {
                 throw new NotImplementedException();
@@ -26,26 +34,26 @@ namespace ScriptDotNet.Services
 
         public ushort RunMountTimer
         {
-            get { return _client.SendPacket<ushort>(PacketType.SCGetRunMountTimer); }
-            set { _client.SendPacket(PacketType.SCSetRunMountTimer, value); }
+            get { return Client.SendPacket<ushort>(PacketType.SCGetRunMountTimer); }
+            set { Client.SendPacket(PacketType.SCSetRunMountTimer, value); }
         }
 
         public ushort RunUnMountTimer
         {
-            get { return _client.SendPacket<ushort>(PacketType.SCGetRunUnmountTimer); }
-            set { _client.SendPacket(PacketType.SCSetRunUnmountTimer, value); }
+            get { return Client.SendPacket<ushort>(PacketType.SCGetRunUnmountTimer); }
+            set { Client.SendPacket(PacketType.SCSetRunUnmountTimer, value); }
         }
 
         public ushort WalkMountTimer
         {
-            get { return _client.SendPacket<ushort>(PacketType.SCGetWalkMountTimer); }
-            set { _client.SendPacket(PacketType.SCSetWalkMountTimer, value); }
+            get { return Client.SendPacket<ushort>(PacketType.SCGetWalkMountTimer); }
+            set { Client.SendPacket(PacketType.SCSetWalkMountTimer, value); }
         }
 
         public ushort WalkUnmountTimer
         {
-            get { return _client.SendPacket<ushort>(PacketType.SCGetWalkUnmountTimer); }
-            set { _client.SendPacket(PacketType.SCSetWalkUnmountTimer, value); }
+            get { return Client.SendPacket<ushort>(PacketType.SCGetWalkUnmountTimer); }
+            set { Client.SendPacket(PacketType.SCSetWalkUnmountTimer, value); }
         }
 
         public ushort MoveCheckStamina
@@ -54,6 +62,7 @@ namespace ScriptDotNet.Services
             {
                 throw new NotImplementedException();
             }
+
             set
             {
                 throw new NotImplementedException();
@@ -66,6 +75,7 @@ namespace ScriptDotNet.Services
             {
                 throw new NotImplementedException();
             }
+
             set
             {
                 throw new NotImplementedException();
@@ -74,8 +84,8 @@ namespace ScriptDotNet.Services
 
         public bool MoveOpenDoor
         {
-            get { return _client.SendPacket<bool>(PacketType.SCGetMoveOpenDoor); }
-            set { _client.SendPacket(PacketType.SCSetMoveOpenDoor, value); }
+            get { return Client.SendPacket<bool>(PacketType.SCGetMoveOpenDoor); }
+            set { Client.SendPacket(PacketType.SCSetMoveOpenDoor, value); }
         }
 
         public bool MoveThroughCorner
@@ -84,6 +94,7 @@ namespace ScriptDotNet.Services
             {
                 throw new NotImplementedException();
             }
+
             set
             {
                 throw new NotImplementedException();
@@ -92,8 +103,8 @@ namespace ScriptDotNet.Services
 
         public ushort MoveThroughNPC
         {
-            get { return _client.SendPacket<ushort>(PacketType.SCGetMoveThroughNPC); }
-            set { _client.SendPacket(PacketType.SCSetMoveThroughNPC, value); }
+            get { return Client.SendPacket<ushort>(PacketType.SCGetMoveThroughNPC); }
+            set { Client.SendPacket(PacketType.SCSetMoveThroughNPC, value); }
         }
 
         public int MoveTurnCost
@@ -102,6 +113,7 @@ namespace ScriptDotNet.Services
             {
                 throw new NotImplementedException();
             }
+
             set
             {
                 throw new NotImplementedException();
@@ -110,22 +122,22 @@ namespace ScriptDotNet.Services
 
         public byte PredictedDirection
         {
-            get { return _client.SendPacket<byte>(PacketType.SCPredictedDirection); }
+            get { return Client.SendPacket<byte>(PacketType.SCPredictedDirection); }
         }
 
         public ushort PredictedX
         {
-            get { return _client.SendPacket<ushort>(PacketType.SCPredictedX); }
+            get { return Client.SendPacket<ushort>(PacketType.SCPredictedX); }
         }
 
         public ushort PredictedY
         {
-            get { return _client.SendPacket<ushort>(PacketType.SCPredictedY); }
+            get { return Client.SendPacket<ushort>(PacketType.SCPredictedY); }
         }
 
         public sbyte PredictedZ
         {
-            get { return _client.SendPacket<sbyte>(PacketType.SCPredictedZ); }
+            get { return Client.SendPacket<sbyte>(PacketType.SCPredictedZ); }
         }
 
         public void CalcCoord(ushort x, ushort y, Direction dir, out ushort x2, out ushort y2)
@@ -136,26 +148,42 @@ namespace ScriptDotNet.Services
             if ((dir == Direction.NorthEast) ||
                 (dir == Direction.East) ||
                 (dir == Direction.SouthEast))
+            {
                 x2 = (ushort)(x + 1);
-            if ((dir == Direction.SouthWest) ||
-                (dir == Direction.West) || 
-                (dir == Direction.NorthWest))
-                x2 = (ushort)(x - 1);
-            if ((dir == Direction.North) || 
-                (dir == Direction.South)) 
-                x2 = x;
+            }
 
-            if ((dir == Direction.SouthEast) || 
-                (dir == Direction.South) || 
-                (dir == Direction.SouthWest)) 
+            if ((dir == Direction.SouthWest) ||
+                (dir == Direction.West) ||
+                (dir == Direction.NorthWest))
+            {
+                x2 = (ushort)(x - 1);
+            }
+
+            if ((dir == Direction.North) ||
+                (dir == Direction.South))
+            {
+                x2 = x;
+            }
+
+            if ((dir == Direction.SouthEast) ||
+                (dir == Direction.South) ||
+                (dir == Direction.SouthWest))
+            {
                 y2 = (ushort)(y + 1);
-            if ((dir == Direction.NorthWest) || 
-                (dir == Direction.North) || 
-                (dir == Direction.NorthEast)) 
+            }
+
+            if ((dir == Direction.NorthWest) ||
+                (dir == Direction.North) ||
+                (dir == Direction.NorthEast))
+            {
                 y2 = (ushort)(y - 1);
-            if ((dir == Direction.East) || 
-                (dir == Direction.West)) 
+            }
+
+            if ((dir == Direction.East) ||
+                (dir == Direction.West))
+            {
                 y2 = y;
+            }
         }
 
         public Direction CalcDir(ushort xFrom, ushort yFrom, ushort xTo, ushort yTo)
@@ -163,38 +191,61 @@ namespace ScriptDotNet.Services
             ushort diffx = (ushort)Math.Abs(xFrom - xTo);
             ushort diffy = (ushort)Math.Abs(yFrom - yTo);
             if (diffx == 0 && diffy == 0)
+            {
                 return Direction.Unknown;
+            }
+
             if ((diffx / (diffy + 0.1)) >= 2)
             {
-                if (xFrom > xTo) 
+                if (xFrom > xTo)
+                {
                     return Direction.West;
+                }
+
                 return Direction.East;
             }
+
             if ((diffy / (diffx + 0.1)) >= 2)
             {
-                if (yFrom > yTo) 
+                if (yFrom > yTo)
+                {
                     return Direction.North;
+                }
+
                 return Direction.South;
             }
-            if (xFrom > xTo && yFrom > yTo) 
+
+            if (xFrom > xTo && yFrom > yTo)
+            {
                 return Direction.NorthWest;
-            if (xFrom > xTo && yFrom < yTo) 
+            }
+
+            if (xFrom > xTo && yFrom < yTo)
+            {
                 return Direction.SouthWest;
-            if (xFrom < xTo && yFrom > yTo) 
+            }
+
+            if (xFrom < xTo && yFrom > yTo)
+            {
                 return Direction.NorthEast;
-            if (xFrom < xTo && yFrom < yTo) 
+            }
+
+            if (xFrom < xTo && yFrom < yTo)
+            {
                 return Direction.SouthEast;
+            }
+
             return Direction.Unknown;
         }
 
         public void ClearBadLocationList()
         {
-            _client.SendPacket(PacketType.SCClearBadLocationList);
+            Client.SendPacket(PacketType.SCClearBadLocationList);
         }
 
         public void ClearBadObjectList()
         {
-            _client.SendPacket(PacketType.SCClearBadObjectList);
+            Client.SendPacket(PacketType.SCClearBadObjectList);
         }
 
         public ushort Dist(ushort x1, ushort y1, ushort x2, ushort y2)
@@ -209,27 +260,27 @@ namespace ScriptDotNet.Services
 
         public List<MyPoint> GetPathArray(ushort destX, ushort destY, bool optimized, int accuracy)
         {
-            return _client.SendPacket<List<MyPoint>>(PacketType.SCGetPathArray, destX, destY, optimized, accuracy);
+            return Client.SendPacket<List<MyPoint>>(PacketType.SCGetPathArray, destX, destY, optimized, accuracy);
         }
 
         public List<MyPoint> GetPathArray3D(ushort startX, ushort startY, sbyte startZ, ushort finishX, ushort finishY, sbyte finishZ, byte worldNum, int accuracyXY, int accuracyZ, bool run)
         {
-            return _client.SendPacket<List<MyPoint>>(PacketType.SCGetPathArray3D, startX, startY, startZ, finishX, finishY, finishZ, worldNum, accuracyXY, accuracyZ, run);
+            return Client.SendPacket<List<MyPoint>>(PacketType.SCGetPathArray3D, startX, startY, startZ, finishX, finishY, finishZ, worldNum, accuracyXY, accuracyZ, run);
         }
 
         public uint GetLastStepQUsedDoor()
         {
-            return _client.SendPacket<uint>(PacketType.SCGetLastStepQUsedDoor);
+            return Client.SendPacket<uint>(PacketType.SCGetLastStepQUsedDoor);
         }
 
         public bool MoveXY(ushort xDst, ushort yDst, bool optimized, int accuracy, bool running)
         {
-            return _client.SendPacket<bool>(PacketType.SCMoveXY, xDst, yDst, optimized, accuracy, running);
+            return Client.SendPacket<bool>(PacketType.SCMoveXY, xDst, yDst, optimized, accuracy, running);
         }
 
         public bool MoveXYZ(ushort xDst, ushort yDst, sbyte zDst, int accuracyXY, int accuracyZ, bool running)
         {
-            return _client.SendPacket<bool>(PacketType.SCMoveXYZ, xDst, yDst, zDst, accuracyXY, accuracyZ, running);
+            return Client.SendPacket<bool>(PacketType.SCMoveXYZ, xDst, yDst, zDst, accuracyXY, accuracyZ, running);
         }
 
         public bool NewMoveXY(ushort xDst, ushort yDst, bool optimized, int accuracy, bool running)
@@ -237,9 +288,14 @@ namespace ScriptDotNet.Services
             return MoveXYZ(xDst, yDst, 0, accuracy, 255, running);
         }
 
+        public void StopMover()
+        {
+            Client.SendPacket(PacketType.SCMoverStop);
+        }
+
         public void OpenDoor()
         {
-            _client.SendPacket(PacketType.SCOpenDoor);
+            Client.SendPacket(PacketType.SCOpenDoor);
         }
 
         public bool RawMove(byte direction, bool running)
@@ -249,27 +305,27 @@ namespace ScriptDotNet.Services
 
         public void SetBadLocation(ushort x, ushort y)
         {
-            _client.SendPacket(PacketType.SCSetBadLocation, x, y);
+            Client.SendPacket(PacketType.SCSetBadLocation, x, y);
         }
 
         public void SetBadObject(ushort objType, ushort color, byte radius)
         {
-            _client.SendPacket(PacketType.SCSetBadObjects, objType, color, radius);
+            Client.SendPacket(PacketType.SCSetBadObjects, objType, color, radius);
         }
 
         public void SetGoodLocation(ushort x, ushort y)
         {
-            _client.SendPacket(PacketType.SCSetGoodLocation, x, y);
+            Client.SendPacket(PacketType.SCSetGoodLocation, x, y);
         }
 
         public byte Step(byte direction, bool running)
         {
-            return _client.SendPacket<byte>(PacketType.SCStep, direction, running);
+            return Client.SendPacket<byte>(PacketType.SCStep, direction, running);
         }
 
         public int StepQ(byte direction, bool running)
         {
-            return _client.SendPacket<int>(PacketType.SCStepQ, direction, running);
+            return Client.SendPacket<int>(PacketType.SCStepQ, direction, running);
         }
     }
 }

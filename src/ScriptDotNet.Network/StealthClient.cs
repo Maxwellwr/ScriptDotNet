@@ -1,4 +1,11 @@
-﻿using System;
+﻿// -----------------------------------------------------------------------
+// <copyright file="StealthClient.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+using System;
+using System.Buffers;
 using System.Buffers.Binary;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -14,20 +21,14 @@ namespace ScriptDotNet.Network
 {
     public class StealthClient : IStealthClient
     {
-        public event EventHandler<ServerEventArgs> ServerEventRecieve;
-        public event EventHandler StartStopRecieve;
-        public event EventHandler TerminateRecieve;
-
-        TcpClient _client;
-        BinaryReader _reader;
-        BinaryWriter _writer;
-        ConcurrentQueue<Packet> _replyes;
-        readonly CancellationTokenSource _cts = new CancellationTokenSource();
-
-        ushort _returnId = 1;
-
-        string _host;
-        int _port;
+        private readonly CancellationTokenSource _cts = new CancellationTokenSource();
+        private TcpClient _client;
+        private BinaryReader _reader;
+        private BinaryWriter _writer;
+        private ConcurrentQueue<Packet> _replyes;
+        private ushort _returnId = 1;
+        private string _host;
+        private int _port;
 
         public StealthClient(string host, int port)
         {
@@ -36,65 +37,119 @@ namespace ScriptDotNet.Network
             _replyes = new ConcurrentQueue<Packet>();
         }
 
+        public event EventHandler<ServerEventArgs> ServerEventRecieve;
+
+        public event EventHandler StartStopRecieve;
+
+        public event EventHandler TerminateRecieve;
+
         public void Connect()
         {
-            Trace.WriteLine(string.Format("Connect Stealth client. Host: {0}, Port: {1}", _host, _port), "Stealth.Network");
-            _client = new TcpClient(_host, _port);
+            var intPort = FindPort();
+
+            Trace.WriteLine(string.Format("Connect Stealth client. Host: {0}, Port: {1}", _host, intPort), "Stealth.Network");
+            _client = new TcpClient(_host, intPort);
             _reader = new BinaryReader(_client.GetStream());
             _writer = new BinaryWriter(_client.GetStream());
 
             Trace.WriteLine("Start reciever", "Stealth.Network");
             var factory = new TaskFactory(_cts.Token, TaskCreationOptions.LongRunning, TaskContinuationOptions.LongRunning, TaskScheduler.Default);
             factory.StartNew(Receiver, _cts.Token);
+
         }
 
         public void Dispose()
         {
             _cts.Cancel();
             if (_client != null)
+            {
                 _client.Close();
+            }
+
             if (_reader != null)
+            {
                 _reader.Dispose();
+            }
+
             if (_writer != null)
+            {
                 _writer.Dispose();
+            }
         }
 
-        void Receiver(object state)
+        public void SendPacket(PacketType packetType, params object[] parameters)
+        {
+            lock (this)
+            {
+                var packet = new Packet(packetType);
+                packet.AddParameters(parameters);
+
+                SendPacket(packet);
+            }
+        }
+
+        public T SendPacket<T>(PacketType packetType, params object[] parameters)
+        {
+            lock (this)
+            {
+                var packet = new Packet(packetType, GetNextReturnId());
+                packet.AddParameters(parameters);
+
+                SendPacket(packet);
+                return WaitReply<T>(packet.ReturnId);
+            }
+        }
+
+        private int FindPort()
+        {
+            if (_port == 0)
+            {
+                var tcpClient = new TcpClient(_host, 47602);
+                var stream = tcpClient.GetStream();
+                var buffer = new byte[] { 0x04, 0x00, 0xEF, 0xBE, 0xAD, 0xDE };
+                stream.Write(buffer, 0, 6);
+                stream.Flush();
+                stream.Read(buffer, 0, 2);
+                var len = BinaryPrimitives.ReadUInt16LittleEndian(buffer.AsSpan());
+                stream.Read(buffer, 0, len);
+                if (len == 2)
+                {
+                    return BinaryPrimitives.ReadInt16LittleEndian(buffer);
+                }
+                else
+                {
+                    return BinaryPrimitives.ReadInt32LittleEndian(buffer);
+                }
+            }
+
+            return _port;
+        }
+
+        private void Receiver(object state)
         {
             CancellationToken token = (CancellationToken)state;
-
             while (!token.IsCancellationRequested)
             {
                 if (_reader != null && _reader.BaseStream.CanRead && ((NetworkStream)_reader.BaseStream).DataAvailable)
                 {
                     while (((NetworkStream)_reader.BaseStream).DataAvailable)
                     {
-
                         var buffer = _reader.ReadBytes(4).AsSpan();
                         var packetLen = BinaryPrimitives.ReadInt32BigEndian(buffer);
-
                         buffer = _reader.ReadBytes(packetLen).AsSpan();
-                        Packet packet = new Packet();
-                        packet.Method = (PacketType)BinaryPrimitives.ReadUInt16LittleEndian(buffer.Slice(0,2));
-                        packet.Data = buffer.Slice(2).ToArray();
-                        //packet.UnusedData = _reader.ReadBytes((int)(packetLen - 4U - 2U - 4U - dataLength));
-
-                        //Trace.WriteLineIf(packet.UnusedData.Length > 0,
-                        //    $"Read packet. Type: {packet.Method}, UnusedData: {string.Join(",", packet.UnusedData.Select(b => b.ToString("X2")))}", "Stealth.Network");
-
+                        Packet packet = new Packet((PacketType)BinaryPrimitives.ReadUInt16LittleEndian(buffer.Slice(0, 2)), buffer.Slice(2).ToArray());
                         Trace.WriteLine($"Read packet. Type: {packet.Method}, Param: {packet}", "Stealth.Network");
-
                         ProcessPacket(packet);
                     }
-
                 }
                 else
+                {
                     Thread.Sleep(10);
+                }
             }
 
             token.ThrowIfCancellationRequested();
         }
-
 
         private void ProcessPacket(Packet packet)
         {
@@ -127,29 +182,36 @@ namespace ScriptDotNet.Network
                         var type = (DataType)span[pos++];
                         switch (type)
                         {
-                            case DataType.parUnicodeString:
+                            case DataType.UnicodeString:
                                 var size = BinaryPrimitives.ReadInt32LittleEndian(span.Slice(pos));
                                 pos += 4;
                                 parameters.Add(Encoding.Unicode.GetString(span.Slice(pos, size * 2).ToArray()));
                                 pos += size * 2;
                                 break;
-                            case DataType.parInteger:
+                            case DataType.Cardinal:
+                                parameters.Add(BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(pos)));
+                                pos += 4;
+                                break;
+                            case DataType.Integer:
                                 parameters.Add(BinaryPrimitives.ReadInt32LittleEndian(span.Slice(pos)));
                                 pos += 4;
                                 break;
-                            case DataType.parCardinal:
+                            case DataType.Word:
                                 parameters.Add(BinaryPrimitives.ReadUInt16LittleEndian(span.Slice(pos)));
                                 pos += 2;
                                 break;
-                            case DataType.parBoolean:
-                                parameters.Add(span[pos++] > 0);
-                                break;
-                            case DataType.parWord:
+                            case DataType.Smallint:
                                 parameters.Add(BinaryPrimitives.ReadInt16LittleEndian(span.Slice(pos)));
                                 pos += 2;
                                 break;
-                            case DataType.parByte:
+                            case DataType.Byte:
                                 parameters.Add(span[pos++]);
+                                break;
+                            case DataType.ShortInt:
+                                parameters.Add((sbyte)span[pos++]);
+                                break;
+                            case DataType.Boolean:
+                                parameters.Add(span[pos++] > 0);
                                 break;
                         }
                     }
@@ -160,7 +222,6 @@ namespace ScriptDotNet.Network
                 default:
                     throw new Exception("Recieve unknown packet. ID: " + (ushort)packet.Method);
             }
-
         }
 
         private void OnTerminateRecieve()
@@ -181,60 +242,47 @@ namespace ScriptDotNet.Network
         private void SendPacket(Packet packet)
         {
             while (_writer == null || !_writer.BaseStream.CanWrite)
+            {
                 Thread.Sleep(10);
+            }
 
-            Trace.WriteLine(string.Format("Send packet. Type: {0}, Param: {1}",
-                    packet.Method,
-                    packet.ToString()),
-                "Stealth.Network");
             var pb = packet.GetBytes();
             Span<byte> lb = stackalloc byte[4];
             BinaryPrimitives.WriteInt32BigEndian(lb, pb.Length);
+
+            Trace.WriteLine(
+                string.Format(
+                    "Send packet. Length: {0}, Type: {1}, ReturnId: {2}, Data: {3}",
+                    string.Join(" ", lb.ToArray().Select(b => b.ToString("X2"))),
+                    string.Join(" ", pb.AsSpan().Slice(0,2).ToArray().Select(b => b.ToString("X2"))),
+                    string.Join(" ", pb.AsSpan().Slice(2, 2).ToArray().Select(b => b.ToString("X2"))),
+                    string.Join(" ", pb.AsSpan().Slice(4).ToArray().Select(b => b.ToString("X2")))),
+                "Stealth.Network");
+
             _writer.Write(lb.ToArray());
             _writer.Write(pb);
             _writer.Flush();
-
-        }
-
-
-
-        public void SendPacket(PacketType packetType, params object[] parameters)
-        {
-            lock (this)
-            {
-                var packet = new Packet() { Method = packetType, ReturnId = 0 };
-                packet.AddParameters(parameters);
-
-                SendPacket(packet);
-            }
-        }
-
-        public T SendPacket<T>(PacketType packetType, params object[] parameters)
-        {
-            lock (this)
-            {
-                var packet = new Packet() { Method = packetType, ReturnId = GetNextReturnId() };
-                packet.AddParameters(parameters);
-
-                SendPacket(packet);
-                return WaitReply<T>(packet.ReturnId);
-            }
         }
 
         private T WaitReply<T>(ushort returnId)
         {
             while (_replyes.Count == 0)
+            {
                 Thread.Sleep(10);
+            }
 
             Packet packet;
             bool getPacket;
             do
             {
                 getPacket = _replyes.TryDequeue(out packet);
-            } while (!getPacket && packet.ReturnId != returnId);
+            }
+            while (!getPacket && packet.ReturnId != returnId);
 
             if (typeof(T).IsValueType && Type.GetTypeCode(typeof(T)) != TypeCode.DateTime)
+            {
                 return packet.Data.Skip(2).ToArray().MarshalToObject<T>();
+            }
             else
             {
                 switch (Type.GetTypeCode(typeof(T)))
@@ -244,6 +292,7 @@ namespace ScriptDotNet.Network
                         uint len = BitConverter.ToUInt32(packet.Data, 2);
                         return (T)(object)Encoding.Unicode.GetString(packet.Data.Skip(6).ToArray());
                     }
+
                     case TypeCode.DateTime:
                         return (T)(object)BitConverter.ToDouble(packet.Data, 2).ToDateTime();
                     default:
@@ -252,20 +301,26 @@ namespace ScriptDotNet.Network
                             var elementType = typeof(T).GetElementType();
                             byte[] barray = packet.Data.Skip(2).ToArray();
                             if (barray == null || barray.Length == 0)
+                            {
                                 return default(T);
+                            }
+
                             T uarray = (T)Activator.CreateInstance(typeof(T), new object[] { barray.Length / System.Runtime.InteropServices.Marshal.SizeOf(elementType) });
                             Buffer.BlockCopy(barray, 0, uarray as Array, 0, barray.Length);
                             return uarray;
                         }
+
                         if (typeof(T).IsGenericType && typeof(T).GetInterfaces().Any(i => i == typeof(IList)))
                         {
-
                             byte[] barray = packet.Data.Skip(2).ToArray();
-                            T result = Activator.CreateInstance<T>();
+                            var result = Activator.CreateInstance<T>() as IList;
                             var elementType = typeof(T).GetGenericArguments()[0];
 
                             if (barray == null || barray.Length == 0)
+                            {
                                 return (T)Activator.CreateInstance(typeof(T));
+                            }
+
                             if (elementType.IsPrimitive)
                             {
                                 Array uarray = Array.CreateInstance(elementType, barray.Length / System.Runtime.InteropServices.Marshal.SizeOf(elementType));
@@ -273,30 +328,21 @@ namespace ScriptDotNet.Network
 
                                 foreach (var item in uarray)
                                 {
-                                    (result as IList).Add(item);
+                                    result.Add(item);
                                 }
                             }
                             else if (Type.GetTypeCode(elementType) == TypeCode.String)
                             {
                                 uint len = BitConverter.ToUInt32(barray, 0);
                                 var str = Encoding.Unicode.GetString(barray.Skip(4).ToArray());
-                                str.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).ToList().ForEach(s => (result as IList).Add(s));
+                                str.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).ToList().ForEach(s => result.Add(s));
                             }
                             else
                             {
                                 uint itemCount;
-                                //switch (replyId)
-                                //{
-                                //    case PacketType.SCReadStaticsXY:
-                                //    case PacketType.SCGetBuffBarInfo:
-                                //        itemCount = (uint)barray[0];
-                                //        barray = barray.Skip(1).ToArray();
-                                //        break;
-                                //    default:
-                                        itemCount = BitConverter.ToUInt32(barray, 0);
-                                        barray = barray.Skip(4).ToArray();
-                                //        break;
-                                //}
+
+                                itemCount = BitConverter.ToUInt16(barray, 0);
+                                barray = barray.Skip(2).ToArray();
 
                                 if (elementType.GetInterfaces().Any(intf => intf == typeof(IDeserialized)))
                                 {
@@ -306,7 +352,7 @@ namespace ScriptDotNet.Network
                                         while (str.Position < str.Length)
                                         {
                                             var el = br.MarshalToObject(elementType);
-                                            (result as IList).Add(el);
+                                            result.Add(el);
                                         }
                                     }
                                 }
@@ -316,12 +362,14 @@ namespace ScriptDotNet.Network
                                     if (itemCount > 0)
                                     {
                                         var uarray = barray.SplitN(itemSize).Select(b => b.ToArray().MarshalToObject(elementType)).ToList();
-                                        uarray.ForEach(el => (result as IList).Add(el));
+                                        uarray.ForEach(el => result.Add(el));
                                     }
                                 }
                             }
-                            return result;
+
+                            return (T)result;
                         }
+
                         throw new InvalidOperationException($"Type '{typeof(T)}' not supported.");
                 }
             }
@@ -330,10 +378,11 @@ namespace ScriptDotNet.Network
         private ushort GetNextReturnId()
         {
             if (_returnId == ushort.MaxValue)
+            {
                 _returnId = 1;
+            }
+
             return _returnId++;
         }
     }
-
 }
-

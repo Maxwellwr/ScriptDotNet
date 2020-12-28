@@ -1,16 +1,22 @@
-﻿using ScriptDotNet.Network;
+﻿// -----------------------------------------------------------------------
+// <copyright file="StealthService.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
 using System;
 using System.IO;
 using System.Reflection;
+using ScriptDotNet.Network;
 
 namespace ScriptDotNet.Services
 {
-    public class StealthService:BaseService, IStealthService
+    public class StealthService : BaseService, IStealthService
     {
         public StealthService(IStealthClient client)
-            :base(client)
+            : base(client)
         {
-
         }
 
         public string CurrentScriptPath
@@ -20,27 +26,27 @@ namespace ScriptDotNet.Services
 
         public string ProfileName
         {
-            get { return _client.SendPacket<string>(PacketType.SCGetProfileName); }
+            get { return Client.SendPacket<string>(PacketType.SCGetProfileName); }
         }
 
         public string ProfileShardName
         {
-            get { return _client.SendPacket<string>(PacketType.SCGetProfileShardName); }
+            get { return Client.SendPacket<string>(PacketType.SCGetProfileShardName); }
         }
 
         public AboutData StealthInfo
         {
-            get { return _client.SendPacket<AboutData>(PacketType.SCGetStealthInfo); }
+            get { return Client.SendPacket<AboutData>(PacketType.SCGetStealthInfo); }
         }
 
         public string StealthPath
         {
-            get { return _client.SendPacket<string>(PacketType.SCGetStealthPath); }
+            get { return Client.SendPacket<string>(PacketType.SCGetStealthPath); }
         }
 
         public string StealthProfilePath
         {
-            get { return _client.SendPacket<string>(PacketType.SCGetStealthProfilePath); }
+            get { return Client.SendPacket<string>(PacketType.SCGetStealthProfilePath); }
         }
 
         public uint StealthSelf
@@ -50,18 +56,17 @@ namespace ScriptDotNet.Services
 
         public string ShardName
         {
-            get { return _client.SendPacket<string>(PacketType.SCGetShardName); }
+            get { return Client.SendPacket<string>(PacketType.SCGetShardName); }
         }
 
         public string ShardPath
         {
-            get { return _client.SendPacket<string>(PacketType.SCGetShardPath); }
+            get { return Client.SendPacket<string>(PacketType.SCGetShardPath); }
         }
 
         public void PauseCurrentScript()
         {
             throw new NotImplementedException();
         }
-
     }
 }

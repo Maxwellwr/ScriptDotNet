@@ -1,4 +1,11 @@
-﻿using System;
+﻿// -----------------------------------------------------------------------
+// <copyright file="QuestArrowEventArgs.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using System;
 
 namespace ScriptDotNet
 {
@@ -10,10 +17,11 @@ namespace ScriptDotNet
             Y = y;
             IsActive = isActive;
         }
+
         public ushort X { get; private set; }
+
         public ushort Y { get; private set; }
+
         public bool IsActive { get; private set; }
     }
-
-
 }

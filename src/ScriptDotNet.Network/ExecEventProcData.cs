@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿// -----------------------------------------------------------------------
+// <copyright file="ExecEventProcData.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using System.Collections;
 
 namespace ScriptDotNet.Network
 {
@@ -6,7 +13,6 @@ namespace ScriptDotNet.Network
     {
         public ExecEventProcData()
         {
-
         }
 
         public ExecEventProcData(EventTypes eventType, ArrayList param)
@@ -16,6 +22,7 @@ namespace ScriptDotNet.Network
         }
 
         public EventTypes EventType { get; private set; }
+
         public ArrayList Parameters { get; private set; }
     }
 }

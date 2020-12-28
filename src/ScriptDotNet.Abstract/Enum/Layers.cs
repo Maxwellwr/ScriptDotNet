@@ -1,4 +1,11 @@
-﻿namespace ScriptDotNet
+﻿// -----------------------------------------------------------------------
+// <copyright file="Layers.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace ScriptDotNet
 {
     public enum Layer : byte
     {
@@ -29,6 +36,6 @@
         Rstk = 0x1A,
         NRstk = 0x1B,
         Sell = 0x1C,
-        Bank = 0x1D
+        Bank = 0x1D,
     }
 }

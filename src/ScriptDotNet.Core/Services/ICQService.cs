@@ -1,43 +1,49 @@
-﻿using ScriptDotNet.Network;
+﻿// -----------------------------------------------------------------------
+// <copyright file="ICQService.cs" company="ScriptDotNet">
+// Copyright (c) ScriptDotNet. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using ScriptDotNet.Network;
 
 namespace ScriptDotNet.Services
 {
-    public class ICQService:BaseService, IICQService
+    public class ICQService : BaseService, IICQService
     {
         public ICQService(IStealthClient client)
-            :base(client)
+            : base(client)
         {
-
         }
 
         public bool ICQConnected
         {
-            get { return _client.SendPacket<bool>(PacketType.SCICQ_GetConnectedStatus); }
+            get { return Client.SendPacket<bool>(PacketType.SCICQ_GetConnectedStatus); }
         }
 
         public void ICQConnect(string uin, string password)
         {
-            _client.SendPacket(PacketType.SCICQ_Connect, uin, password);
+            Client.SendPacket(PacketType.SCICQ_Connect, uin, password);
         }
 
         public void ICQDisconnect()
         {
-            _client.SendPacket(PacketType.SCICQ_Disconnect);
+            Client.SendPacket(PacketType.SCICQ_Disconnect);
         }
 
         public void ICQSendText(string toUin, string text)
         {
-            _client.SendPacket(PacketType.SCICQ_SendText, toUin, text);
+            Client.SendPacket(PacketType.SCICQ_SendText, toUin, text);
         }
 
         public void ICQSetStatus(byte num)
         {
-            _client.SendPacket(PacketType.SCICQ_SetStatus, num);
+            Client.SendPacket(PacketType.SCICQ_SetStatus, num);
         }
 
         public void ICQSetXStatus(byte num)
         {
-            _client.SendPacket(PacketType.SCICQ_SetXStatus, num);
+            Client.SendPacket(PacketType.SCICQ_SetXStatus, num);
         }
     }
 }
