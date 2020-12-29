@@ -66,8 +66,8 @@ namespace ScriptDotNet.Network
         public byte[] GetBytes()
         {
             Span<byte> buffer = stackalloc byte[DataLength + 4];
-            BinaryPrimitives.WriteUInt16LittleEndian(buffer.Slice(0, 2), (ushort)Method);
-            BinaryPrimitives.WriteUInt16LittleEndian(buffer.Slice(2, 2), ReturnId);
+            BinaryPrimitives.WriteUInt16BigEndian(buffer.Slice(0, 2), (ushort)Method);
+            BinaryPrimitives.WriteUInt16BigEndian(buffer.Slice(2, 2), ReturnId);
             new Span<byte>(Data).CopyTo(buffer.Slice(4, DataLength));
             return buffer.ToArray();
         }

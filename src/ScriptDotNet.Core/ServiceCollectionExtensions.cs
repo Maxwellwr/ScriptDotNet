@@ -5,6 +5,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using Microsoft.Extensions.Logging;
 using ScriptDotNet;
 using ScriptDotNet.Network;
 using ScriptDotNet.Services;
@@ -13,7 +14,8 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddScriptDotNet(this IServiceCollection services, int port = 0)
+        public static IServiceCollection AddScriptDotNet(this IServiceCollection services, string host = "localhost",
+            uint port = 0)
         {
             services.AddTransient<IAttackService, AttackService>();
             services.AddTransient<ICharStatsService, CharStatsService>();
@@ -47,9 +49,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IViberService, ViberService>();
 
             services.AddSingleton<IStealthClient>(p =>
-            {
-                return new StealthClient("localhost", port);
-            });
+                new StealthClient(host, port));
             services.AddSingleton<Stealth, Stealth>();
 
             return services;

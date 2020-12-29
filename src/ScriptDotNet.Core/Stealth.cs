@@ -18,7 +18,7 @@ namespace ScriptDotNet
     public partial class Stealth : IDisposable
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1306:Field names should begin with lower-case letter", Justification = "OK")]
-        private readonly Version SUPPORTEDVERSION = new Version(8, 10, 6, 0);
+        private readonly Version SUPPORTEDVERSION = new Version(8, 11, 4, 0);
 
         private IStealthClient _client;
         private bool _isStopped;
@@ -82,7 +82,7 @@ namespace ScriptDotNet
 
         private void SetScriptVersion()
         {
-            _client.SendPacket(PacketType.SCLangVersion, (byte)3, 0x00000001u);
+            _client.SendPacket(PacketType.SCLangVersion, (byte)3, 0x01000000u);
         }
 
         private void CheckSupportedVersion()

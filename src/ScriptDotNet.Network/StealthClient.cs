@@ -4,11 +4,12 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 // -----------------------------------------------------------------------
+
 using System;
-using System.Buffers;
 using System.Buffers.Binary;
 using System.Collections;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -16,25 +17,29 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Drenalol.TcpClientIo.Client;
+using Drenalol.TcpClientIo.Converters;
+using Drenalol.TcpClientIo.Options;
 
 namespace ScriptDotNet.Network
 {
     public class StealthClient : IStealthClient
     {
-        private readonly CancellationTokenSource _cts = new CancellationTokenSource();
+        private readonly CancellationTokenSource _cts = new();
+        private readonly string _host;
+        private readonly uint _port;
+        private readonly ConcurrentQueue<Packet> _replies;
         private TcpClient _client;
         private BinaryReader _reader;
         private BinaryWriter _writer;
-        private ConcurrentQueue<Packet> _replyes;
         private ushort _returnId = 1;
-        private string _host;
-        private int _port;
 
-        public StealthClient(string host, int port)
+
+        public StealthClient(string host, uint port)
         {
             _host = host;
             _port = port;
-            _replyes = new ConcurrentQueue<Packet>();
+            _replies = new ConcurrentQueue<Packet>();
         }
 
         public event EventHandler<ServerEventArgs> ServerEventRecieve;
@@ -47,34 +52,34 @@ namespace ScriptDotNet.Network
         {
             var intPort = FindPort();
 
-            Trace.WriteLine(string.Format("Connect Stealth client. Host: {0}, Port: {1}", _host, intPort), "Stealth.Network");
-            _client = new TcpClient(_host, intPort);
+            Trace.WriteLine(string.Format("Connect Stealth client. Host: {0}, Port: {1}", _host, intPort),
+                "Stealth.Network");
+            _client = new TcpClient(_host, (int) intPort);
             _reader = new BinaryReader(_client.GetStream());
             _writer = new BinaryWriter(_client.GetStream());
 
             Trace.WriteLine("Start reciever", "Stealth.Network");
-            var factory = new TaskFactory(_cts.Token, TaskCreationOptions.LongRunning, TaskContinuationOptions.LongRunning, TaskScheduler.Default);
-            factory.StartNew(Receiver, _cts.Token);
+            var opt = TcpClientIoOptions.Default;
+            opt.Converters = new List<TcpConverter>()
+            {
+                new P()
+            }
+            var t = new TcpClientIo<uint, Request<int>, Request<int>>(_client, );
 
+            var factory = new TaskFactory(
+                _cts.Token,
+                TaskCreationOptions.LongRunning,
+                TaskContinuationOptions.LongRunning,
+                TaskScheduler.Default);
+            factory.StartNew(Receiver, _cts.Token);
         }
 
         public void Dispose()
         {
             _cts.Cancel();
-            if (_client != null)
-            {
-                _client.Close();
-            }
-
-            if (_reader != null)
-            {
-                _reader.Dispose();
-            }
-
-            if (_writer != null)
-            {
-                _writer.Dispose();
-            }
+            _client?.Close();
+            _reader?.Dispose();
+            _writer?.Dispose();
         }
 
         public void SendPacket(PacketType packetType, params object[] parameters)
@@ -100,25 +105,26 @@ namespace ScriptDotNet.Network
             }
         }
 
-        private int FindPort()
+        private uint FindPort()
         {
             if (_port == 0)
             {
                 var tcpClient = new TcpClient(_host, 47602);
                 var stream = tcpClient.GetStream();
-                var buffer = new byte[] { 0x04, 0x00, 0xEF, 0xBE, 0xAD, 0xDE };
+                var buffer = new byte[] {0x00, 0x04, 0xEF, 0xBE, 0xAD, 0xDE};
                 stream.Write(buffer, 0, 6);
                 stream.Flush();
-                stream.Read(buffer, 0, 2);
+                buffer = new byte[4];
+                var readed = stream.Read(buffer, 0, 2);
                 var len = BinaryPrimitives.ReadUInt16LittleEndian(buffer.AsSpan());
                 stream.Read(buffer, 0, len);
                 if (len == 2)
                 {
-                    return BinaryPrimitives.ReadInt16LittleEndian(buffer);
+                    return BinaryPrimitives.ReadUInt16BigEndian(buffer);
                 }
                 else
                 {
-                    return BinaryPrimitives.ReadInt32LittleEndian(buffer);
+                    return BinaryPrimitives.ReadUInt32BigEndian(buffer);
                 }
             }
 
@@ -127,17 +133,19 @@ namespace ScriptDotNet.Network
 
         private void Receiver(object state)
         {
-            CancellationToken token = (CancellationToken)state;
+            CancellationToken token = (CancellationToken) state;
             while (!token.IsCancellationRequested)
             {
-                if (_reader != null && _reader.BaseStream.CanRead && ((NetworkStream)_reader.BaseStream).DataAvailable)
+                if (_reader != null && _reader.BaseStream.CanRead && ((NetworkStream) _reader.BaseStream).DataAvailable)
                 {
-                    while (((NetworkStream)_reader.BaseStream).DataAvailable)
+                    while (((NetworkStream) _reader.BaseStream).DataAvailable)
                     {
                         var buffer = _reader.ReadBytes(4).AsSpan();
                         var packetLen = BinaryPrimitives.ReadInt32BigEndian(buffer);
                         buffer = _reader.ReadBytes(packetLen).AsSpan();
-                        Packet packet = new Packet((PacketType)BinaryPrimitives.ReadUInt16LittleEndian(buffer.Slice(0, 2)), buffer.Slice(2).ToArray());
+                        Packet packet =
+                            new Packet((PacketType) BinaryPrimitives.ReadUInt16LittleEndian(buffer.Slice(0, 2)),
+                                buffer.Slice(2).ToArray());
                         Trace.WriteLine($"Read packet. Type: {packet.Method}, Param: {packet}", "Stealth.Network");
                         ProcessPacket(packet);
                     }
@@ -159,7 +167,7 @@ namespace ScriptDotNet.Network
                     break;
                 case PacketType.SCReturnValue:
                     packet.ReturnId = BinaryPrimitives.ReadUInt16LittleEndian(packet.Data.AsSpan());
-                    _replyes.Enqueue(packet);
+                    _replies.Enqueue(packet);
                     break;
 
                 case PacketType.SCScriptDLLTerminate:
@@ -172,14 +180,14 @@ namespace ScriptDotNet.Network
 
                 case PacketType.SCExecEventProc:
                     var span = packet.Data.AsSpan();
-                    var eventType = (EventTypes)span[0];
+                    var eventType = (EventTypes) span[0];
                     var paramCount = span[1];
                     span = span.Slice(2);
                     ArrayList parameters = new ArrayList(paramCount);
                     int pos = 0;
                     for (int i = 0; i < paramCount; i++)
                     {
-                        var type = (DataType)span[pos++];
+                        var type = (DataType) span[pos++];
                         switch (type)
                         {
                             case DataType.UnicodeString:
@@ -208,7 +216,7 @@ namespace ScriptDotNet.Network
                                 parameters.Add(span[pos++]);
                                 break;
                             case DataType.ShortInt:
-                                parameters.Add((sbyte)span[pos++]);
+                                parameters.Add((sbyte) span[pos++]);
                                 break;
                             case DataType.Boolean:
                                 parameters.Add(span[pos++] > 0);
@@ -220,7 +228,7 @@ namespace ScriptDotNet.Network
                     new Task(() => OnServerEventRecieve(data)).Start();
                     break;
                 default:
-                    throw new Exception("Recieve unknown packet. ID: " + (ushort)packet.Method);
+                    throw new Exception("Recieve unknown packet. ID: " + (ushort) packet.Method);
             }
         }
 
@@ -254,7 +262,7 @@ namespace ScriptDotNet.Network
                 string.Format(
                     "Send packet. Length: {0}, Type: {1}, ReturnId: {2}, Data: {3}",
                     string.Join(" ", lb.ToArray().Select(b => b.ToString("X2"))),
-                    string.Join(" ", pb.AsSpan().Slice(0,2).ToArray().Select(b => b.ToString("X2"))),
+                    string.Join(" ", pb.AsSpan().Slice(0, 2).ToArray().Select(b => b.ToString("X2"))),
                     string.Join(" ", pb.AsSpan().Slice(2, 2).ToArray().Select(b => b.ToString("X2"))),
                     string.Join(" ", pb.AsSpan().Slice(4).ToArray().Select(b => b.ToString("X2")))),
                 "Stealth.Network");
@@ -266,7 +274,7 @@ namespace ScriptDotNet.Network
 
         private T WaitReply<T>(ushort returnId)
         {
-            while (_replyes.Count == 0)
+            while (_replies.Count == 0)
             {
                 Thread.Sleep(10);
             }
@@ -275,9 +283,8 @@ namespace ScriptDotNet.Network
             bool getPacket;
             do
             {
-                getPacket = _replyes.TryDequeue(out packet);
-            }
-            while (!getPacket && packet.ReturnId != returnId);
+                getPacket = _replies.TryDequeue(out packet);
+            } while (!getPacket && packet.ReturnId != returnId);
 
             if (typeof(T).IsValueType && Type.GetTypeCode(typeof(T)) != TypeCode.DateTime)
             {
@@ -290,11 +297,11 @@ namespace ScriptDotNet.Network
                     case TypeCode.String:
                     {
                         uint len = BitConverter.ToUInt32(packet.Data, 2);
-                        return (T)(object)Encoding.Unicode.GetString(packet.Data.Skip(6).ToArray());
+                        return (T) (object) Encoding.Unicode.GetString(packet.Data.Skip(6).ToArray());
                     }
 
                     case TypeCode.DateTime:
-                        return (T)(object)BitConverter.ToDouble(packet.Data, 2).ToDateTime();
+                        return (T) (object) BitConverter.ToDouble(packet.Data, 2).ToDateTime();
                     default:
                         if (typeof(T).IsArray)
                         {
@@ -305,7 +312,9 @@ namespace ScriptDotNet.Network
                                 return default(T);
                             }
 
-                            T uarray = (T)Activator.CreateInstance(typeof(T), new object[] { barray.Length / System.Runtime.InteropServices.Marshal.SizeOf(elementType) });
+                            T uarray = (T) Activator.CreateInstance(typeof(T),
+                                new object[]
+                                    {barray.Length / System.Runtime.InteropServices.Marshal.SizeOf(elementType)});
                             Buffer.BlockCopy(barray, 0, uarray as Array, 0, barray.Length);
                             return uarray;
                         }
@@ -318,12 +327,13 @@ namespace ScriptDotNet.Network
 
                             if (barray == null || barray.Length == 0)
                             {
-                                return (T)Activator.CreateInstance(typeof(T));
+                                return (T) Activator.CreateInstance(typeof(T));
                             }
 
                             if (elementType.IsPrimitive)
                             {
-                                Array uarray = Array.CreateInstance(elementType, barray.Length / System.Runtime.InteropServices.Marshal.SizeOf(elementType));
+                                Array uarray = Array.CreateInstance(elementType,
+                                    barray.Length / System.Runtime.InteropServices.Marshal.SizeOf(elementType));
                                 Buffer.BlockCopy(barray, 0, uarray as Array, 0, barray.Length);
 
                                 foreach (var item in uarray)
@@ -335,7 +345,8 @@ namespace ScriptDotNet.Network
                             {
                                 uint len = BitConverter.ToUInt32(barray, 0);
                                 var str = Encoding.Unicode.GetString(barray.Skip(4).ToArray());
-                                str.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).ToList().ForEach(s => result.Add(s));
+                                str.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).ToList()
+                                    .ForEach(s => result.Add(s));
                             }
                             else
                             {
@@ -361,13 +372,14 @@ namespace ScriptDotNet.Network
                                     var itemSize = System.Runtime.InteropServices.Marshal.SizeOf(elementType);
                                     if (itemCount > 0)
                                     {
-                                        var uarray = barray.SplitN(itemSize).Select(b => b.ToArray().MarshalToObject(elementType)).ToList();
+                                        var uarray = barray.SplitN(itemSize)
+                                            .Select(b => b.ToArray().MarshalToObject(elementType)).ToList();
                                         uarray.ForEach(el => result.Add(el));
                                     }
                                 }
                             }
 
-                            return (T)result;
+                            return (T) result;
                         }
 
                         throw new InvalidOperationException($"Type '{typeof(T)}' not supported.");

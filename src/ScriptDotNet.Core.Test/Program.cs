@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ScriptDotNet.Services;
 using System;
+using Microsoft.Extensions.Logging;
 
 namespace ScriptDotNet.Test
 {
@@ -23,14 +24,15 @@ namespace ScriptDotNet.Test
             Console.WriteLine("RUN!");
 
             IServiceCollection services = new ServiceCollection();
+            services.AddLogging(configure => configure.AddConsole());
             services.AddScriptDotNet("10.211.55.3", port);
             var serviceProvider = services.BuildServiceProvider();
 
             var stealth = serviceProvider.GetRequiredService<Stealth>();
             var stealthService = serviceProvider.GetService<IStealthService>();
-            Console.WriteLine(stealthService.StealthInfo.StealthVersion);
+            //Console.WriteLine(stealthService.StealthInfo.StealthVersion);
 
-            var eventSystem = serviceProvider.GetService<IEventSystemService>();
+            /*var eventSystem = serviceProvider.GetService<IEventSystemService>();
             eventSystem.AddItemToContainer += (o, e) => Console.WriteLine("AddItemToContainer " + e.ItemId);
             eventSystem.AddMultipleItemsInContainer +=
                 (o, e) => Console.WriteLine("AddMultipleItemsInContainer " + e.ContainerId);
@@ -54,7 +56,7 @@ namespace ScriptDotNet.Test
             eventSystem.PartyInvite += (o, e) => Console.WriteLine("PartyInvite " + e.InviterId);
             eventSystem.QuestArrow += (o, e) => Console.WriteLine("QuestArrow " + e.IsActive);
             eventSystem.WindowsMessage += (o, e) => Console.WriteLine("WindowsMessage " + e.LParam);
-            eventSystem.Speech += (o, e) => Console.WriteLine("Speech " + e.Text);
+            eventSystem.Speech += (o, e) => Console.WriteLine("Speech " + e.Text);*/
 
             ConsoleKey key;
             do
@@ -142,6 +144,8 @@ namespace ScriptDotNet.Test
                     case ConsoleKey.F:
                         break;
                     case ConsoleKey.G:
+                        var gump = stealth.GetStealthService<IGumpService>();
+                        Console.WriteLine(gump.GetGumpInfo(0));
                         break;
                     case ConsoleKey.H:
                         break;
